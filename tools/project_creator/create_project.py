@@ -43,7 +43,7 @@ def checkParams():
     
     if opts.project:
         context["dst_project_name"] = opts.project
-        context["dst_project_path"] = os.path.abspath(os.path.join(context["script_dir"], "..", "..", "projects", context["dst_project_name"]))
+        context["dst_project_path"] = os.path.abspath(os.path.join(context["script_dir"], "..", "..", "game", context["dst_project_name"]))
     else:
         parser.error("-p or --project is not specified")
 
