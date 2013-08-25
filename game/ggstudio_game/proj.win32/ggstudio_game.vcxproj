@@ -142,6 +142,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\GameView.cpp" />
     <ClCompile Include="..\Classes\StudioLogoScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -149,6 +150,8 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\CodePage.hpp" />
     <ClInclude Include="..\Classes\Common.h" />
+    <ClInclude Include="..\Classes\GameView.h" />
+    <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\MouseMoveEventExtend.h" />
     <ClInclude Include="..\Classes\StudioLogoScene.h" />
     <ClInclude Include="main.h" />

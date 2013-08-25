@@ -3,7 +3,7 @@
 
 #include <cocos2d.h>
 
-class StudioLogoScene : public cocos2d::Layer
+class StudioLogoScene : public cocos2d::Layer, cocos2d::CCTextFieldDelegate
 {
 public:
     virtual bool init();  

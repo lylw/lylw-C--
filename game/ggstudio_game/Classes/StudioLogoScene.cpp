@@ -1,9 +1,8 @@
 #include "StudioLogoScene.h"
 #include <cocos-ext.h>
-#include "CursorTextField.h"
+#include "CodePage.hpp"
 
 USING_NS_CC;
-USING_NS_CC_EXT;
 
 Scene* StudioLogoScene::scene()
 {
@@ -35,7 +34,20 @@ bool StudioLogoScene::init()
         CCFadeOut::create(0.5f),
         NULL);
 
-    this->addChild(logoSprite);
+    CCTextFieldTTF* input = CCTextFieldTTF::textFieldWithPlaceHolder(a2u("ÊäÈëÕÊºÅ").c_str(), "ËÎÌå", 16.0f);
+    input->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    input->attachWithIME();
+
+    CCTextFieldTTF* input2 = CCTextFieldTTF::textFieldWithPlaceHolder(a2u("ÊäÈëÃÜÂë").c_str(), "ËÎÌå", 16.0f);
+    input2->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y - 120));
+    input2->attachWithIME();
+    //input->setDelegate(this);
+
+    this->addChild(input);
+    this->addChild(input2);
+    //this->addChild(logoSprite);
+
+    input->attachWithIME();
 
     logoSprite->runAction(sequence);
 

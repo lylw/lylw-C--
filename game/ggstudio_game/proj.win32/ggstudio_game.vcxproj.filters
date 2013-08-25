@@ -16,6 +16,9 @@
     <Filter Include="Classes\control">
       <UniqueIdentifier>{f855df55-f1b6-4f0b-925c-6ee0478390d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\scene\StudioLogoScene">
+      <UniqueIdentifier>{b674ef47-551f-42d3-a055-d996e43bfdec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -25,6 +28,9 @@
       <Filter>Classes\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\StudioLogoScene.cpp">
+      <Filter>Classes\scene\StudioLogoScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameView.cpp">
       <Filter>Classes\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,11 +47,17 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Classes\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\StudioLogoScene.h">
-      <Filter>Classes\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\CodePage.hpp">
       <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StudioLogoScene.h">
+      <Filter>Classes\scene\StudioLogoScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameView.h">
+      <Filter>Classes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Classes\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
