@@ -1,7 +1,7 @@
 #include "main.h"
 #include "AppDelegate.h"
 #include "CCEGLView.h"
-#include "MouseMoveEventExtend.h"
+#include "CodePage.hpp"
 
 USING_NS_CC;
 
@@ -16,7 +16,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     // create the application instance
     AppDelegate app;
     EGLView* eglView = EGLView::getInstance();
-    eglView->setViewName("好游戏");
+    eglView->setViewName(a2u("中国好游戏").c_str());
     eglView->setFrameSize(960, 640);
 
     return Application::getInstance()->run();
