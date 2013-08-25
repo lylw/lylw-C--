@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "StudioLogoScene.h"
 
 USING_NS_CC;
 
@@ -19,13 +19,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setOpenGLView(eglView);
 	
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    Scene *scene = HelloWorld::scene();
+    Scene *scene = StudioLogoScene::scene();
 
     // run
     director->runWithScene(scene);
