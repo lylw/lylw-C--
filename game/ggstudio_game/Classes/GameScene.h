@@ -22,7 +22,7 @@ class GameScene
 {
 public:
     GameScene(const SceneType& type)
-        : sceneType_(type)
+        : tiledMap_(NULL), sceneType_(type)
     {
     }
 
@@ -44,8 +44,11 @@ public:
     void onLoadCompleted()
     {
         std::string resource = GamePath::MAP_DIR + "standard.tmx";
-        tiledMap_ = CCTMXTiledMap::create(resource.c_str());
-        tiledMap_->setPosition(0,0);
+        std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
+
+        tiledMap_ = new CCTMXTiledMap();
+        tiledMap_->initWithTMXFile(fullPath.c_str());
+        tiledMap_->setPosition(0, 0);
         this->addChild(tiledMap_, 1);
 
         //cocos2d::String* str = tiledMap_->getLayer("事件层")->getProperty("帐篷入口");
