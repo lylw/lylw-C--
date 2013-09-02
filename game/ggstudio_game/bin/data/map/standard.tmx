@@ -2,7 +2,7 @@
 <!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="002-Woods01" tilewidth="16" tileheight="16">
-  <image source="D:/RPG Maker XP/RGSS/Standard/Graphics/Tilesets/002-Woods01.png" trans="ffffff" width="256" height="800"/>
+  <image source="002-Woods01.png" trans="ffffff" width="256" height="800"/>
   <tile id="10">
    <properties>
     <property name="tile_flag" value="1"/>
