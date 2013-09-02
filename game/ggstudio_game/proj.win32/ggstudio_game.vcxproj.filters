@@ -19,6 +19,12 @@
     <Filter Include="Classes\scene\StudioLogoScene">
       <UniqueIdentifier>{b674ef47-551f-42d3-a055-d996e43bfdec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\core\config">
+      <UniqueIdentifier>{f7c3955a-4f7a-4ba6-ab81-9c2ed727a06c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\core\config\tinyxml">
+      <UniqueIdentifier>{623f3308-4729-46c4-9324-d0d373660935}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,10 +33,22 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>Classes\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\StudioLogoScene.cpp">
-      <Filter>Classes\scene\StudioLogoScene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GameView.cpp">
+      <Filter>Classes\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxmlparser.cpp">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinystr.cpp">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxml.cpp">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinyxmlerror.cpp">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TestTileScene.cpp">
       <Filter>Classes\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,13 +68,31 @@
     <ClInclude Include="..\Classes\CodePage.hpp">
       <Filter>Classes\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\StudioLogoScene.h">
-      <Filter>Classes\scene\StudioLogoScene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GameView.h">
       <Filter>Classes\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>Classes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GamePath.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinystr.h">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinyxml.h">
+      <Filter>Classes\core\config\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Singleton.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConfigObject.h">
+      <Filter>Classes\core\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameType.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TestTileScene.h">
       <Filter>Classes\scene</Filter>
     </ClInclude>
   </ItemGroup>

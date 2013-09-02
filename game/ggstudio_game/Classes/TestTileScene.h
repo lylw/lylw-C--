@@ -2,20 +2,15 @@
 #define __STUDIO_LOGO_SCENE_H__
 
 #include <cocos2d.h>
-#include "GameScene.h"
 
-class StudioLogoScene
-    : public GameScene
+class TestTileScene
+    : public cocos2d::Layer
 {
 public:
     virtual bool init();  
     static cocos2d::Scene* scene();
-    CREATE_FUNC(StudioLogoScene);
+    CREATE_FUNC(TestTileScene);
 
-public:
-    void onLoad();
-    void onExit();
-    void onDestroy();
 };
 
 #endif // __STUDIO_LOGO_SCENE_H__

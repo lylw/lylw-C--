@@ -20,6 +20,13 @@ bool StudioLogoScene::init()
         return false;
     }
 
+    this->setTouchEnabled(true);
+    this->onLoad();
+    return true;
+}
+
+void StudioLogoScene::onLoad()
+{
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
@@ -34,22 +41,16 @@ bool StudioLogoScene::init()
         CCFadeOut::create(0.5f),
         NULL);
 
-    CCTextFieldTTF* input = CCTextFieldTTF::textFieldWithPlaceHolder(a2u("ÊäÈëÕÊºÅ").c_str(), "ËÎÌå", 16.0f);
-    input->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    input->attachWithIME();
-
-    CCTextFieldTTF* input2 = CCTextFieldTTF::textFieldWithPlaceHolder(a2u("ÊäÈëÃÜÂë").c_str(), "ËÎÌå", 16.0f);
-    input2->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y - 120));
-    input2->attachWithIME();
-    //input->setDelegate(this);
-
-    this->addChild(input);
-    this->addChild(input2);
-    //this->addChild(logoSprite);
-
-    input->attachWithIME();
-
+    this->addChild(logoSprite);
     logoSprite->runAction(sequence);
+}
 
-    return true;
+void StudioLogoScene::onExit()
+{
+
+}
+
+void StudioLogoScene::onDestroy()
+{
+
 }

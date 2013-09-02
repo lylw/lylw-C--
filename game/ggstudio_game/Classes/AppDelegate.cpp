@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
-#include "StudioLogoScene.h"
+#include "TestTileScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -25,10 +26,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    Scene *scene = StudioLogoScene::scene();
+    cocos2d::Scene* scene = Scene::create();
+    GameScene* s = new GameScene(10086);
+    scene->addChild(s);
+    s->init();
 
     // run
     director->runWithScene(scene);
+    //scene->onLoad();
 
     return true;
 }
