@@ -10,9 +10,6 @@
     <Filter Include="Classes\core">
       <UniqueIdentifier>{cd55b32b-64ec-4142-ae32-63a8f1a4e589}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\scene">
-      <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\control">
       <UniqueIdentifier>{f855df55-f1b6-4f0b-925c-6ee0478390d9}</UniqueIdentifier>
     </Filter>
@@ -28,6 +25,9 @@
     <Filter Include="Classes\config\tinyxml">
       <UniqueIdentifier>{09152a37-545b-4345-9894-af49192caa5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\map">
+      <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,7 +37,7 @@
       <Filter>Classes\core</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameView.cpp">
-      <Filter>Classes\scene</Filter>
+      <Filter>Classes\map</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\tinyxml.cpp">
       <Filter>Classes\config\tinyxml</Filter>
@@ -54,6 +54,12 @@
     <ClCompile Include="..\Classes\MapConfig.cpp">
       <Filter>Classes\config\detail</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameMap.cpp">
+      <Filter>Classes\map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MapManager.cpp">
+      <Filter>Classes\map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -69,7 +75,7 @@
       <Filter>Classes\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameView.h">
-      <Filter>Classes\scene</Filter>
+      <Filter>Classes\map</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GamePath.h">
       <Filter>Classes\core</Filter>
@@ -96,10 +102,10 @@
       <Filter>Classes\config\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameMap.h">
-      <Filter>Classes\scene</Filter>
+      <Filter>Classes\map</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MapManager.h">
-      <Filter>Classes\scene</Filter>
+      <Filter>Classes\map</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MapConfig.h">
       <Filter>Classes\config\detail</Filter>

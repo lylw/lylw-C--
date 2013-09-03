@@ -187,7 +187,7 @@ public:
 
 private:
     MapID_t mapId_;
-    CCTMXTiledMap* tiledMap_;
+    cocos2d::TMXTiledMap* tiledMap_;
     float mapX_, mapY_;
 };
 

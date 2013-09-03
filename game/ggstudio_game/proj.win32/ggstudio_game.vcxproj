@@ -142,8 +142,10 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\GameMap.cpp" />
     <ClCompile Include="..\Classes\GameView.cpp" />
     <ClCompile Include="..\Classes\MapConfig.cpp" />
+    <ClCompile Include="..\Classes\MapManager.cpp" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
     <ClCompile Include="..\Classes\tinyxml.cpp" />
     <ClCompile Include="..\Classes\tinyxmlerror.cpp" />

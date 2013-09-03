@@ -1,3 +1,6 @@
+#ifndef __GAME_PATH_H__
+#define __GAME_PATH_H__
+
 #include <string>
 
 namespace GamePath
@@ -11,3 +14,5 @@ namespace GamePath
     static const std::string LOGS_DIR = "logs/";                  //日志目录
     static const std::string FONTS_DIR = "fonts/";                //字体目录
 };
+
+#endif
