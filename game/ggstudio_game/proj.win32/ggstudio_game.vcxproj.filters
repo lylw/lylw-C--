@@ -16,17 +16,17 @@
     <Filter Include="Classes\control">
       <UniqueIdentifier>{f855df55-f1b6-4f0b-925c-6ee0478390d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\scene\StudioLogoScene">
-      <UniqueIdentifier>{b674ef47-551f-42d3-a055-d996e43bfdec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\core\config">
-      <UniqueIdentifier>{f7c3955a-4f7a-4ba6-ab81-9c2ed727a06c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\core\config\tinyxml">
-      <UniqueIdentifier>{623f3308-4729-46c4-9324-d0d373660935}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\character">
       <UniqueIdentifier>{9c26ed30-9430-44b6-803e-041014d16733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\config">
+      <UniqueIdentifier>{7c73ae91-4a6c-4f12-8fdb-c90d90fa6538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\config\detail">
+      <UniqueIdentifier>{9ddb81e9-efee-4af5-a90b-f0cd5f1fb5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\config\tinyxml">
+      <UniqueIdentifier>{09152a37-545b-4345-9894-af49192caa5c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,28 +39,25 @@
     <ClCompile Include="..\Classes\GameView.cpp">
       <Filter>Classes\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\tinyxmlparser.cpp">
-      <Filter>Classes\core\config\tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\tinystr.cpp">
-      <Filter>Classes\core\config\tinyxml</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\tinyxml.cpp">
-      <Filter>Classes\core\config\tinyxml</Filter>
+      <Filter>Classes\config\tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\tinyxmlerror.cpp">
-      <Filter>Classes\core\config\tinyxml</Filter>
+      <Filter>Classes\config\tinyxml</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\TestTileScene.cpp">
-      <Filter>Classes\scene</Filter>
+    <ClCompile Include="..\Classes\tinyxmlparser.cpp">
+      <Filter>Classes\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\tinystr.cpp">
+      <Filter>Classes\config\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MapConfig.cpp">
+      <Filter>Classes\config\detail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\MouseMoveEventExtend.h">
-      <Filter>Classes\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Common.h">
       <Filter>Classes\core</Filter>
@@ -74,32 +71,38 @@
     <ClInclude Include="..\Classes\GameView.h">
       <Filter>Classes\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>Classes\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GamePath.h">
       <Filter>Classes\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\tinystr.h">
-      <Filter>Classes\core\config\tinyxml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\tinyxml.h">
-      <Filter>Classes\core\config\tinyxml</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Singleton.h">
       <Filter>Classes\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ConfigObject.h">
-      <Filter>Classes\core\config</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GameType.h">
-      <Filter>Classes\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\TestTileScene.h">
-      <Filter>Classes\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ObjCharacter.h">
       <Filter>Classes\character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameConfig.h">
+      <Filter>Classes\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameDef.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ConfigObject.h">
+      <Filter>Classes\config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinyxml.h">
+      <Filter>Classes\config\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\tinystr.h">
+      <Filter>Classes\config\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMap.h">
+      <Filter>Classes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapManager.h">
+      <Filter>Classes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapConfig.h">
+      <Filter>Classes\config\detail</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

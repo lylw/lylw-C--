@@ -143,7 +143,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GameView.cpp" />
-    <ClCompile Include="..\Classes\TestTileScene.cpp" />
+    <ClCompile Include="..\Classes\MapConfig.cpp" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
     <ClCompile Include="..\Classes\tinyxml.cpp" />
     <ClCompile Include="..\Classes\tinyxmlerror.cpp" />
@@ -155,14 +155,15 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\CodePage.hpp" />
     <ClInclude Include="..\Classes\Common.h" />
     <ClInclude Include="..\Classes\ConfigObject.h" />
+    <ClInclude Include="..\Classes\GameConfig.h" />
     <ClInclude Include="..\Classes\GamePath.h" />
-    <ClInclude Include="..\Classes\GameType.h" />
+    <ClInclude Include="..\Classes\GameDef.h" />
     <ClInclude Include="..\Classes\GameView.h" />
-    <ClInclude Include="..\Classes\GameScene.h" />
-    <ClInclude Include="..\Classes\MouseMoveEventExtend.h" />
+    <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\ObjCharacter.h" />
+    <ClInclude Include="..\Classes\MapConfig.h" />
+    <ClInclude Include="..\Classes\MapManager.h" />
     <ClInclude Include="..\Classes\Singleton.h" />
-    <ClInclude Include="..\Classes\TestTileScene.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />
     <ClInclude Include="main.h" />

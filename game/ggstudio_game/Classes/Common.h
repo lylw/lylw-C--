@@ -80,7 +80,6 @@ static float swapfloat(const float& p)
 	u2.asbytes[1] = u1.asbytes[2];
 	u2.asbytes[2] = u1.asbytes[1];
 	u2.asbytes[3] = u1.asbytes[0];
-	//*p = u2.asfloat;
     return u2.asfloat;
 }
 
@@ -96,7 +95,6 @@ static double swapdouble(const double& p)
 	u2.asbytes[5] = u1.asbytes[2];
 	u2.asbytes[6] = u1.asbytes[1];
 	u2.asbytes[7] = u1.asbytes[0];
-	//*p = u2.asfloat;
     return u2.asdouble;
 }
 

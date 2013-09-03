@@ -1,10 +1,11 @@
-#ifndef __GAME_SCENE_H__
-#define __GAME_SCENE_H__
+#ifndef __GAME_Map_H__
+#define __GAME_Map_H__
 
 #include <cocos2d.h>
-#include "GameType.h"
+#include "GameDef.h"
 #include "GamePath.h"
 #include "CodePage.hpp"
+#include "GameConfig.h"
 
 USING_NS_CC;
 
@@ -27,16 +28,16 @@ enum MapLayer
 
 class ObjCharacter;
 
-class GameScene 
+class GameMap 
     : public cocos2d::Layer
 {
 public:
-    GameScene(const SceneType& type)
-        : tiledMap_(NULL), sceneType_(type)
+    GameMap(const MapID_t& mapId)
+        : tiledMap_(NULL), mapId_(mapId)
     {
     }
 
-    virtual ~GameScene()
+    virtual ~GameMap()
     {
         tiledMap_->cleanup();
         SAFE_DELETE(tiledMap_);
@@ -54,7 +55,7 @@ public:
 
     void onLoadCompleted()
     {
-        std::string resource = GamePath::MAP_DIR + "standard.tmx";
+        std::string resource = GamePath::MAP_DIR + MapConfig::getInstance().getMapFileName(10000);
         std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
 
         tiledMap_ = new CCTMXTiledMap();
@@ -81,7 +82,7 @@ public:
         }
 
         CCAnimation *animation = new CCAnimation();
-        animation->initWithSpriteFrames(animFrames, 0.1f);
+        animation->initWithSpriteFrames(animFrames, 0.2f);
         animFrames->release();
 
         CCSprite *heroSprite = CCSprite::createWithSpriteFrame(character_frames[0]);
@@ -92,8 +93,8 @@ public:
 
         ActionInterval* repeat = RepeatForever::create(animate);
         ActionInterval* moveTo = MoveTo::create(2.5f, Point(500, 100));
-        FiniteTimeAction* action = Spawn::create(animate, moveTo, NULL);
-        heroSprite->runAction(CCSequence::create(action, NULL));
+        heroSprite->runAction(moveTo);
+        heroSprite->runAction(repeat);
     }
 
     void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
@@ -171,7 +172,7 @@ public:
 
     void drawRedPoint(cocos2d::Point touchPoint)
     {
-        std::string redPointPath = GamePath::MAP_DIR + "red_point.jpg";
+        std::string redPointPath = GamePath::ICONS_DIR + "red_point.jpg";
         Sprite* sprite = Sprite::create(redPointPath.c_str());
         sprite->setPosition(touchPoint);
         tiledMap_->reorderChild(sprite, MapLayer::MAP_LAYER_CHARACTER);
@@ -179,13 +180,13 @@ public:
     }
 
 public:
-    void objectEnterScene(ObjCharacter* character)
+    void objectEnterMap(ObjCharacter* character)
     {
     
     }
 
 private:
-    SceneType sceneType_;
+    MapID_t mapId_;
     CCTMXTiledMap* tiledMap_;
     float mapX_, mapY_;
 };

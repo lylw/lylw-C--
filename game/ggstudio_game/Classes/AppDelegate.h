@@ -15,7 +15,7 @@ public:
     virtual ~AppDelegate();
 
     /**
-    @brief    Implement Director and Scene init code here.
+    @brief    Implement Director and Map init code here.
     @return true    Initialize success, app continue.
     @return false   Initialize failed, app terminate.
     */

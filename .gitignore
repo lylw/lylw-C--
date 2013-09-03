@@ -95,3 +95,7 @@ tools/jenkins_scripts/mac/android/userconf.ini
 # CTags
 tags
 !game/ggstudio_game/bin
+/game/ggstudio_game/bin/*.dll
+/game/ggstudio_game/bin/*.dll
+/game/ggstudio_game/bin/*.dll
+/game/ggstudio_game/bin/*.dll

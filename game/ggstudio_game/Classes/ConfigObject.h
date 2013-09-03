@@ -1,7 +1,6 @@
 #ifndef __CONFIG_OBJECT_H__
 #define __CONFIG_OBJECT_H__
 
-template <class T>
 class ConfigObject
 {
 public:

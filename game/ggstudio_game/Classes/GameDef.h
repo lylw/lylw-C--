@@ -3,7 +3,9 @@
 
 #include "Common.h"
 
-typedef uint16 SceneType;
-typedef uint16 CharacterType;
+//Game Type
+typedef uint16 MapID_t;
+typedef uint16 CharacterID_t;
+
 
 #endif

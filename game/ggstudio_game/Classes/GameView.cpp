@@ -26,16 +26,16 @@ GameView* GameView::create(const std::string& name)
 {
     if (!name.empty())
     {
-        GameView* scene = new GameView();
-        if (scene != NULL && scene->initWithName(name))
+        GameView* Map = new GameView();
+        if (Map != NULL && Map->initWithName(name))
         {
-            scene->autorelease();
-            return scene;
+            Map->autorelease();
+            return Map;
         }
         else
         {
-            delete scene;
-            scene = NULL;
+            delete Map;
+            Map = NULL;
         }
     }
 

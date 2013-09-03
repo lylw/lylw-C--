@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
-#include "TestTileScene.h"
-#include "GameScene.h"
+#include "GameMap.h"
+#include "GameConfig.h"
 
 USING_NS_CC;
 
@@ -25,12 +25,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
-    // create a scene. it's an autorelease object
-    GameScene* gameScene = new GameScene(10086);
-    gameScene->init();
+
+    //load config
+    MapConfig::getInstance().init();
+
+    // create a Map. it's an autorelease object
+    GameMap* gameMap = new GameMap(10086);
+    gameMap->init();
 
     cocos2d::Scene* scene = cocos2d::Scene::create();
-    scene->addChild(gameScene);
+    scene->addChild(gameMap);
 
     // run
     director->runWithScene(scene);
