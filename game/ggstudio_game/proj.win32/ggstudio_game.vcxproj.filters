@@ -25,6 +25,9 @@
     <Filter Include="Classes\core\config\tinyxml">
       <UniqueIdentifier>{623f3308-4729-46c4-9324-d0d373660935}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\character">
+      <UniqueIdentifier>{9c26ed30-9430-44b6-803e-041014d16733}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TestTileScene.h">
       <Filter>Classes\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ObjCharacter.h">
+      <Filter>Classes\character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

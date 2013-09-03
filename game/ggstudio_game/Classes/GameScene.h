@@ -15,6 +15,16 @@ enum TileFlag
     TILE_FLAG_COVER         //遮挡物
 };
 
+//图层
+enum MapLayer
+{
+    MAP_LAYER_UNDERWORLD = -1,  //地底
+    MAP_LAYER_GROUND     = 0,   //地表层
+    MAP_LAYER_CHARACTER  = 1,   //角色层（包括NPC，怪物等）
+    MAP_LAYER_OBJECTS    = 2,   //地图对象层
+    MAP_LAYER_TILED_FLAG = 3    //图块标志层
+};
+
 class ObjCharacter;
 
 class GameScene 
@@ -29,6 +39,7 @@ public:
     virtual ~GameScene()
     {
         tiledMap_->cleanup();
+        SAFE_DELETE(tiledMap_);
     }
 
     bool init(void)
@@ -47,18 +58,42 @@ public:
         std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
 
         tiledMap_ = new CCTMXTiledMap();
+        FileUtils::sharedFileUtils()->addSearchPath(GamePath::MAP_DIR.c_str());
         tiledMap_->initWithTMXFile(fullPath.c_str());
         tiledMap_->setPosition(0, 0);
-        this->addChild(tiledMap_, 1);
+        this->addChild(tiledMap_, 0);
 
-        //cocos2d::String* str = tiledMap_->getLayer("事件层")->getProperty("帐篷入口");
-        //MessageBoxA(0, str->getCString(), "", 0);
+        // 将图片生成纹理，保存到全局的纹理缓冲区
+        std::string hero_path = GamePath::CHARACTER_DIR + "038-Mage06.png";
+        CCTexture2D *heroTexture = CCTextureCache::sharedTextureCache()->addImage(hero_path.c_str());
 
-        /*CCTMXObjectGroup *objGroup = tiledMap_->objectGroupNamed("events");
-        cocos2d::CCDictionary* spawnPoints = objGroup->objectNamed("zp_entry");
-        const cocos2d::String* tag = spawnPoints->valueForKey("tag");
-        MessageBoxA(0, u2a(tag->getCString()).c_str(), "", 0);*/
+        CCSpriteFrame* character_frames[4];
+        cocos2d::Array* animFrames = cocos2d::Array::create();
 
+        const uint32& frameWidth = heroTexture->getContentSize().width / 4;
+        const uint32& frameHeight = heroTexture->getContentSize().height / 4;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            character_frames[i] = 
+                CCSpriteFrame::createWithTexture(heroTexture, cocos2d::CCRectMake(frameWidth * i, 0, frameWidth, frameHeight));
+            animFrames->addObject(character_frames[i]);
+        }
+
+        CCAnimation *animation = new CCAnimation();
+        animation->initWithSpriteFrames(animFrames, 0.1f);
+        animFrames->release();
+
+        CCSprite *heroSprite = CCSprite::createWithSpriteFrame(character_frames[0]);
+        heroSprite->setPosition(ccp(500, 500));
+        this->addChild(heroSprite);
+
+        CCAnimate *animate = CCAnimate::create(animation);
+
+        ActionInterval* repeat = RepeatForever::create(animate);
+        ActionInterval* moveTo = MoveTo::create(2.5f, Point(500, 100));
+        FiniteTimeAction* action = Spawn::create(animate, moveTo, NULL);
+        heroSprite->runAction(CCSequence::create(action, NULL));
     }
 
     void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
@@ -76,11 +111,15 @@ public:
         //如果当前格子不为空
         if (mapPoint.x != -1) 
         {
-            //取得对象层
-            CCTMXLayer* objects_layer = tiledMap_->layerNamed("flag_layer");
+            //取得图块标志层
+            CCTMXLayer* flag_layer = tiledMap_->layerNamed("flag_layer");
+            if (flag_layer == NULL)
+            {
+                return;
+            }
 
             //根据地图坐标获得格子图块的ID
-            unsigned int gid = objects_layer->tileGIDAt(mapPoint);
+            unsigned int gid = flag_layer->tileGIDAt(mapPoint);
 
             //图块不为空
             if (gid != 1)
@@ -135,7 +174,7 @@ public:
         std::string redPointPath = GamePath::MAP_DIR + "red_point.jpg";
         Sprite* sprite = Sprite::create(redPointPath.c_str());
         sprite->setPosition(touchPoint);
-        tiledMap_->reorderChild(sprite, 1);
+        tiledMap_->reorderChild(sprite, MapLayer::MAP_LAYER_CHARACTER);
         tiledMap_->addChild(sprite);
     }
 

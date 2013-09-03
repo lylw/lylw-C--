@@ -160,6 +160,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\GameView.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\MouseMoveEventExtend.h" />
+    <ClInclude Include="..\Classes\ObjCharacter.h" />
     <ClInclude Include="..\Classes\Singleton.h" />
     <ClInclude Include="..\Classes\TestTileScene.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
