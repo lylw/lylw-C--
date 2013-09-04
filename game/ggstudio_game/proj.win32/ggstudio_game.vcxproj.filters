@@ -110,5 +110,8 @@
     <ClInclude Include="..\Classes\MapConfig.h">
       <Filter>Classes\config\detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ResourceCachedManager.h">
+      <Filter>Classes\core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

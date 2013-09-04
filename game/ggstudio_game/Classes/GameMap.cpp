@@ -55,7 +55,6 @@ void GameMap::onLoadCompleted()
 
     heroSprite = CCSprite::createWithSpriteFrame(character_frames[0]);
     heroSprite->setPosition(ccp(265, 148));
-    
     tiledMap_->reorderChild(heroSprite, MapLayer::MAP_LAYER_CHARACTER);
     tiledMap_->addChild(heroSprite);
 

@@ -4,6 +4,12 @@
 #include <cocos2d.h>
 #include "GameDef.h"
 
+struct CharacterAvatar
+{
+    cocos2d::CCAnimation* body;
+    cocos2d::CCAnimation* weapon;
+};
+
 class GameMap;
 class ObjCharacter : public cocos2d::Sprite
 {
@@ -18,6 +24,7 @@ private:
     GUID_t guid_;
     GameMap* currentMap_;
     cocos2d::Point mapCoordinate_;
+    CharacterAvatar* characterAvatar_;
 };
 
 #endif

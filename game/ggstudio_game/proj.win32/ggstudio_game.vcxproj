@@ -165,6 +165,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\ObjCharacter.h" />
     <ClInclude Include="..\Classes\MapConfig.h" />
     <ClInclude Include="..\Classes\MapManager.h" />
+    <ClInclude Include="..\Classes\ResourceCachedManager.h" />
     <ClInclude Include="..\Classes\Singleton.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />
