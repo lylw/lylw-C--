@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include <QtGui>
 
 IrregularWidget::IrregularWidget(QWidget *parent)
@@ -6,7 +6,7 @@ IrregularWidget::IrregularWidget(QWidget *parent)
 {
     setWindowTitle("Irregular widget");
     //加载一幅有部分区域是透明的图片作为程序的界面
-    m_Pixmap.load("E:\\WORKSPACE\\zeus-cocos2dx\\game\\ggstudio_game\\bin\\data\\map\\002-Woods01.png");
+    m_Pixmap.load("res/launcher_ui.png");
     resize( m_Pixmap.size() );
     //不规则窗口的关键，将图片透明的地方设为穿透
     setMask( m_Pixmap.mask() );
