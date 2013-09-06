@@ -13,9 +13,6 @@
     <Filter Include="Classes\control">
       <UniqueIdentifier>{f855df55-f1b6-4f0b-925c-6ee0478390d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\character">
-      <UniqueIdentifier>{9c26ed30-9430-44b6-803e-041014d16733}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\config">
       <UniqueIdentifier>{7c73ae91-4a6c-4f12-8fdb-c90d90fa6538}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="Classes\map">
       <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\obj">
+      <UniqueIdentifier>{9c26ed30-9430-44b6-803e-041014d16733}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +60,9 @@
     <ClCompile Include="..\Classes\MapManager.cpp">
       <Filter>Classes\map</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ObjCharacter.cpp">
+      <Filter>Classes\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -84,7 +87,7 @@
       <Filter>Classes\core</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ObjCharacter.h">
-      <Filter>Classes\character</Filter>
+      <Filter>Classes\obj</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameConfig.h">
       <Filter>Classes\config</Filter>
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ResourceCachedManager.h">
       <Filter>Classes\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ObjPlayer.h">
+      <Filter>Classes\obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

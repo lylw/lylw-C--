@@ -4,27 +4,23 @@
 #include <cocos2d.h>
 #include "GameDef.h"
 
-struct CharacterAvatar
-{
-    cocos2d::CCAnimation* body;
-    cocos2d::CCAnimation* weapon;
-};
-
 class GameMap;
 class ObjCharacter : public cocos2d::Sprite
 {
-public:
-    ObjCharacter(GUID_t guid, const CharacterID_t& characterType);
+protected:
+    ObjCharacter(const GUID_t& guid, const ObjType& objType);
     virtual ~ObjCharacter();
 
 protected:
-    virtual void moveTo(const cocos2d::Point& target);
+    bool init(cocos2d::Texture2D* texture);
+    bool onLoadComplete();
+
 
 private:
     GUID_t guid_;
+    ObjType type_;
     GameMap* currentMap_;
     cocos2d::Point mapCoordinate_;
-    CharacterAvatar* characterAvatar_;
 };
 
 #endif

@@ -159,4 +159,4 @@ void GameMap::drawRedPoint(cocos2d::Point touchPoint)
 void GameMap::objectEnterMap(ObjCharacter* character)
 {
 
-}
+} 
