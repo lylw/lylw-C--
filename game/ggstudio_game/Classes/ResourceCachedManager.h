@@ -20,7 +20,7 @@ private:
     }
 
 public:
-    void loadCharacterAnimation(ObjType objType, ActionType actionType)
+    void loadCharacterAnimation(const AvatarStyle& avatarStyle)
     {
         // 将图片生成纹理，保存到全局的纹理缓冲区
         std::string hero_path = GamePath::CHARACTER_DIR + ".png";
