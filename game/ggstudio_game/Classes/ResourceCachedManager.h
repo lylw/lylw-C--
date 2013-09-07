@@ -7,7 +7,8 @@
 #include "GamePath.h"
 #include "GameDef.h"
 
-static const uint8 WALK_FRAME_COUNT = 4;   //角色行走动画帧数
+static const uint8 WALK_DIRECTION_COUNT = 8;   //行走图方向（4方向/8方向）
+static const uint8 WALK_FRAME_COUNT = 4;       //角色行走动画帧数
 
 class ResourceCachedManager
     : public Singleton<ResourceCachedManager>
@@ -30,13 +31,13 @@ public:
         cocos2d::Texture2D* characterTexture = cocos2d::TextureCache::getInstance()->addImage(texturePath.c_str());
 
         //取得动画帧
-        cocos2d::SpriteFrame* characterFrames[4];
+        cocos2d::SpriteFrame* characterFrames[WALK_DIRECTION_COUNT][WALK_FRAME_COUNT];
         cocos2d::Array* animFrames = cocos2d::Array::create();
 
-        /*const uint32& frameWidth = characterTexture->getContentSize().width / 4;
-        const uint32& frameHeight = characterTexture->getContentSize().height / 4;
+        const uint32& frameWidth = characterTexture->getContentSize().width / WALK_FRAME_COUNT;
+        const uint32& frameHeight = characterTexture->getContentSize().height / WALK_DIRECTION_COUNT;
 
-        for (int i = 0; i < 4; ++i)
+        /*for (int i = 0; i < WALK_DIRECTION_COUNT; ++i)
         {
             characterFrames[i] = 
                 cocos2d::SpriteFrame::createWithTexture(characterTexture, cocos2d::CCRectMake(frameWidth * i, 0, frameWidth, frameHeight));
