@@ -11,7 +11,7 @@ typedef uint64 GUID_t;
 //½ÇÉ«ÑùÊ½
 struct AvatarStyle
 {
-    uint8 character;
+    uint8 body;
     uint8 hair;
     uint32 clothes;
     uint32 weapon;

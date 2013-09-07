@@ -7,7 +7,7 @@
 #include "GamePath.h"
 #include "GameDef.h"
 
-std::string ActionAnimateType[] = { "%s_%d_standard", "%s_%d_attack", "%s_%d_walk", "%s_%d_run", "%s_%d_action_%d", "%s_%d_die" };
+static const uint8 WALK_FRAME_COUNT = 4;   //角色行走动画帧数
 
 class ResourceCachedManager
     : public Singleton<ResourceCachedManager>
@@ -22,14 +22,38 @@ private:
 public:
     void loadCharacterAnimation(const AvatarStyle& avatarStyle)
     {
+        char characterResFilename[255] = {0};
+        sprintf(characterResFilename, "body_%d_walk.png", avatarStyle.body);
+        
         // 将图片生成纹理，保存到全局的纹理缓冲区
-        std::string hero_path = GamePath::CHARACTER_DIR + ".png";
-        cocos2d::Texture2D *heroTexture = cocos2d::TextureCache::getInstance()->addImage(hero_path.c_str());
+        std::string texturePath = GamePath::CHARACTER_DIR + characterResFilename;
+        cocos2d::Texture2D* characterTexture = cocos2d::TextureCache::getInstance()->addImage(texturePath.c_str());
+
+        //取得动画帧
+        cocos2d::SpriteFrame* characterFrames[4];
+        cocos2d::Array* animFrames = cocos2d::Array::create();
+
+        /*const uint32& frameWidth = characterTexture->getContentSize().width / 4;
+        const uint32& frameHeight = characterTexture->getContentSize().height / 4;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            characterFrames[i] = 
+                cocos2d::SpriteFrame::createWithTexture(characterTexture, cocos2d::CCRectMake(frameWidth * i, 0, frameWidth, frameHeight));
+            animFrames->addObject(characterFrames[i]);
+        }
+
+        cocos2d::Animation* animation = new cocos2d::Animation();
+        animation->initWithSpriteFrames(animFrames, 0.2f);
+        animFrames->release();
+
+        heroSprite = CCSprite::createWithSpriteFrame(character_frames[0]);
+        cocos2d::SpriteFrameCache::getInstance()->addSpriteFrame();
+
+
+        animate_ = CCAnimate::create(animation);*/
     }
 
-private:
-    std::string objTypeStrMapping_[OBJ_TYPE_MAX_FLAG];
-    std::string actionTypeStrMapping_[ACTION_TYPE_MAX_FLAG];
 };
 
 #endif // __RESOURCE_CACHED_MANAGER_H__
