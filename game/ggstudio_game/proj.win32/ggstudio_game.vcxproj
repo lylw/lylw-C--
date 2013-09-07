@@ -163,6 +163,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\GameDef.h" />
     <ClInclude Include="..\Classes\GameView.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
+    <ClInclude Include="..\Classes\Manager.h" />
     <ClInclude Include="..\Classes\ObjCharacter.h" />
     <ClInclude Include="..\Classes\MapConfig.h" />
     <ClInclude Include="..\Classes\MapManager.h" />

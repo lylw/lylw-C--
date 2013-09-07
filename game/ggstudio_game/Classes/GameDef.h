@@ -8,11 +8,28 @@ typedef uint16 MapID_t;
 typedef uint16 CharacterID_t;
 typedef uint64 GUID_t;
 
+//行走图方向（4方向/8方向）
+enum CharacterDirection
+{
+    DIRECTION_UP,
+    DIRECTION_LEFT,
+    DIRECTION_DOWN,
+    DIRECTION_RIGHT,
+
+    DIRECTION_MAX_FLAG
+};
+
+namespace CharacterParameter
+{
+    static const uint8 kWalkFrameCount = 4;         //角色行走动画帧数
+    static const float kWalkFrameDelay = 0.2f;      //角色行走动画每帧的间隔时间（秒）
+}
+
 //角色样式
 struct AvatarStyle
 {
-    uint8 body;
-    uint8 hair;
+    uint32 body;
+    uint32 hair;
     uint32 clothes;
     uint32 weapon;
 };

@@ -11,6 +11,10 @@ bool MapManager::init()
     return true;
 }
 
+void MapManager::destroy()
+{
+}
+
 GameMap* MapManager::createMap(const MapID_t& mapId)
 {
     const std::string& filename = MapConfig::getInstance().getMapFileName(mapId);

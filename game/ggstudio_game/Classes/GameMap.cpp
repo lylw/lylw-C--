@@ -1,4 +1,7 @@
+#include "GameDef.h"
 #include "GameMap.h"
+#include "ResourceCachedManager.h"
+#include "ObjCharacter.h"
 
 GameMap::GameMap(const MapID_t& mapId)
     : tiledMap_(NULL), mapId_(mapId)
@@ -26,40 +29,26 @@ void GameMap::onLoadCompleted()
     std::string resource = GamePath::MAP_DIR + MapConfig::getInstance().getMapFileName(10000);
     std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
 
-    tiledMap_ = new CCTMXTiledMap();
+    //加载地图
+    tiledMap_ = new cocos2d::TMXTiledMap();
     FileUtils::sharedFileUtils()->addSearchPath(GamePath::MAP_DIR.c_str());
     tiledMap_->initWithTMXFile(fullPath.c_str());
     tiledMap_->setPosition(0, 0);
     this->addChild(tiledMap_, 0);
 
-    // 将图片生成纹理，保存到全局的纹理缓冲区
-    std::string hero_path = GamePath::CHARACTER_DIR + "038-Mage06.png";
-    CCTexture2D *heroTexture = CCTextureCache::sharedTextureCache()->addImage(hero_path.c_str());
+    //创建角色
+    AvatarStyle avatarStyle;
+    avatarStyle.body = 10001;
 
-    CCSpriteFrame* character_frames[4];
-    cocos2d::Array* animFrames = cocos2d::Array::create();
+    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle);
 
-    const uint32& frameWidth = heroTexture->getContentSize().width / 4;
-    const uint32& frameHeight = heroTexture->getContentSize().height / 4;
-
-    for (int i = 0; i < 4; ++i)
-    {
-        character_frames[i] = 
-            CCSpriteFrame::createWithTexture(heroTexture, cocos2d::CCRectMake(frameWidth * i, 0, frameWidth, frameHeight));
-        animFrames->addObject(character_frames[i]);
-    }
-
-    CCAnimation *animation = new CCAnimation();
-    animation->initWithSpriteFrames(animFrames, 0.2f);
-    animFrames->release();
-
-    heroSprite = CCSprite::createWithSpriteFrame(character_frames[0]);
+    heroSprite = CCSprite::createWithSpriteFrame(characterFrameData->getSpriteFrameByDirection(DIRECTION_UP));
     heroSprite->setPosition(ccp(265, 148));
     tiledMap_->reorderChild(heroSprite, MapLayer::MAP_LAYER_CHARACTER);
     tiledMap_->addChild(heroSprite);
 
+    cocos2d::Animation* animation = characterFrameData->getAnimationByDirection(DIRECTION_UP);
     animate_ = CCAnimate::create(animation);
-
     repeat_ = RepeatForever::create(animate_);
     ActionInterval* moveTo = MoveTo::create(2.5f, Point(265, 148));
     heroSprite->runAction(moveTo);
@@ -79,7 +68,7 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
     CCPoint mapPoint = this->tileCoordinateFromPos(ccp(touchPoint.x - mapX_, touchPoint.y - mapY_));
 
     //如果当前格子不为空
-    if (mapPoint.x != -1) 
+    if (mapPoint.x != -1)
     {
         //取得图块标志层
         CCTMXLayer* flag_layer = tiledMap_->layerNamed("flag_layer");

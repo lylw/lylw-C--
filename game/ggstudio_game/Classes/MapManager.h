@@ -3,14 +3,15 @@
 
 #include <cocos2d.h>
 #include "GameDef.h"
-#include "Singleton.h"
+#include "Manager.h"
 
 class GameMap;
 class MapManager
-    : public Singleton<MapManager>
+    : public Manager<MapManager>
 {
 public:
     bool init();
+    void destroy();
     GameMap* createMap(const MapID_t& mapId);
 
 private:

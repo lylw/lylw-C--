@@ -15,7 +15,6 @@ protected:
     bool init(cocos2d::Texture2D* texture);
     bool onLoadComplete();
 
-
 private:
     GUID_t guid_;
     ObjType type_;
