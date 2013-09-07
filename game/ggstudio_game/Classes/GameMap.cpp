@@ -42,8 +42,14 @@ void GameMap::onLoadCompleted()
 
     CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle);
 
-    heroSprite = CCSprite::createWithSpriteFrame(characterFrameData->getSpriteFrameByDirection(DIRECTION_UP));
+    SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(DIRECTION_UP);
+    heroSprite = CCSprite::createWithSpriteFrame(spriteFrame);
     heroSprite->setPosition(ccp(265, 148));
+
+    //设置描点为脚底（之后通过角色编辑器编辑锚点，因为可能有些角色的锚点并不在脚下）
+    heroSprite->setAnchorPoint(ccp(0.5, 0));
+
+    //把角色调整到相应的层中
     tiledMap_->reorderChild(heroSprite, MapLayer::MAP_LAYER_CHARACTER);
     tiledMap_->addChild(heroSprite);
 
