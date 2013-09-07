@@ -130,13 +130,23 @@ CCPoint GameMap::tileCoordinateFromPos(CCPoint pos)
 
 void GameMap::drawRedPoint(cocos2d::Point touchPoint)
 {
-    std::string redPointPath = GamePath::ICONS_DIR + "red_point.jpg";
-    Sprite* sprite = Sprite::create(redPointPath.c_str());
-    sprite->setPosition(touchPoint);
+    //画一个红点
+    //std::string redPointPath = GamePath::ICONS_DIR + "red_point.jpg";
+    //Sprite* sprite = Sprite::create(redPointPath.c_str());
+    //sprite->setPosition(touchPoint);
     //tiledMap_->reorderChild(sprite, MapLayer::MAP_LAYER_CHARACTER);
     //tiledMap_->addChild(sprite);
 
-    moveTo_ = MoveTo::create(2.5f, touchPoint);
+    const Point& startPoint = heroSprite->getPosition();
+    const Point& targetPoint = touchPoint;
+
+    //目标是否和原点一样
+    if (startPoint.equals(targetPoint)) return;
+
+    //求两点距离
+    float distance = targetPoint.getDistance(startPoint);
+
+    moveTo_ = MoveTo::create(distance / 140.0f, targetPoint);
     repeat_ = RepeatForever::create(animate_);
 
     heroSprite->stopAllActions();
