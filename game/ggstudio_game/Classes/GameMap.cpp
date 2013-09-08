@@ -1,10 +1,10 @@
 #include "GameDef.h"
 #include "GameMap.h"
 #include "ResourceCachedManager.h"
-#include "ObjCharacter.h"
+#include "ObjPlayer.h"
 
 GameMap::GameMap(const MapID_t& mapId)
-    : tiledMap_(NULL), mapId_(mapId)
+    : tiledMap_(NULL), mapId_(mapId), player_(NULL)
 {
 }
 
@@ -37,28 +37,28 @@ void GameMap::onLoadCompleted()
     this->addChild(tiledMap_, 0);
 
     //创建角色
-    AvatarStyle avatarStyle;
-    avatarStyle.body = 10001;
+    player_ = new ObjPlayer(696969);
+    player_->setBodyStyle(10001);
 
-    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle);
+    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(player_->avatarStyle());
 
     SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(DIRECTION_UP);
-    heroSprite = CCSprite::createWithSpriteFrame(spriteFrame);
-    heroSprite->setPosition(ccp(265, 148));
+    player_->initWithSpriteFrame(spriteFrame);
+    player_->setPosition(ccp(265, 148));
 
     //设置描点为脚底（之后通过角色编辑器编辑锚点，因为可能有些角色的锚点并不在脚下）
-    heroSprite->setAnchorPoint(ccp(0.5, 0));
+    player_->setAnchorPoint(ccp(0.5, 0));
 
     //把角色调整到相应的层中
-    tiledMap_->reorderChild(heroSprite, MapLayer::MAP_LAYER_CHARACTER);
-    tiledMap_->addChild(heroSprite);
+    tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
+    tiledMap_->addChild(player_);
 
     cocos2d::Animation* animation = characterFrameData->getAnimationByDirection(DIRECTION_UP);
     animate_ = CCAnimate::create(animation);
     repeat_ = RepeatForever::create(animate_);
     ActionInterval* moveTo = MoveTo::create(2.5f, Point(265, 148));
-    heroSprite->runAction(moveTo);
-    heroSprite->runAction(repeat_);
+    player_->runAction(moveTo);
+    player_->runAction(repeat_);
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
@@ -143,11 +143,67 @@ void GameMap::drawRedPoint(cocos2d::Point touchPoint)
     //tiledMap_->reorderChild(sprite, MapLayer::MAP_LAYER_CHARACTER);
     //tiledMap_->addChild(sprite);
 
-    const Point& startPoint = heroSprite->getPosition();
+    const Point& startPoint = player_->getPosition();
     const Point& targetPoint = touchPoint;
 
     //目标是否和原点一样
     if (startPoint.equals(targetPoint)) return;
+
+    //计算角度
+    float radians = ccpToAngle(ccpSub(targetPoint, startPoint));
+    float degrees = -1 * CC_RADIANS_TO_DEGREES(radians); //通过宏将弧度变成角度
+
+    CCLOG("radians = %f, degrees = %f", radians, degrees);
+
+    CharacterDirection direction = DIRECTION_UP;
+    AvatarStyle avatarStyle;
+    avatarStyle.body = 10001;
+
+    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle);
+    if (degrees <= 22.5 && degrees >= -22.5) 
+    {
+        //right
+        direction = DIRECTION_RIGHT;
+    }
+    else if (degrees > 22.5 && degrees < 67.5)
+    {
+        //bottomright
+        direction = DIRECTION_RIGHT;
+    }
+    else if (degrees >= 67.5 && degrees <= 112.5)
+    {
+        //bottom
+        direction = DIRECTION_DOWN;
+    }
+    else if (degrees > 112.5 && degrees < 157.5)
+    {
+        //bottomleft
+        direction = DIRECTION_DOWN;
+    }
+    else if (degrees >= 157.5 || degrees <= -157.5)
+    {
+        //left
+        direction = DIRECTION_LEFT;
+    }
+    else if (degrees < -22.5 && degrees > -67.5)
+    {
+        //topright
+        direction = DIRECTION_UP;
+    }
+    else if (degrees <= -67.5 && degrees >= -112.5)
+    {
+        //top
+        direction = DIRECTION_UP;
+    }
+    else if (degrees < -112.5 && degrees > -157.5)
+    {
+        //topleft
+        direction = DIRECTION_UP;
+    }
+
+    cocos2d::Animation* animation = characterFrameData->getAnimationByDirection(direction);
+    animate_ = CCAnimate::create(animation);
+    repeat_ = RepeatForever::create(animate_);
 
     //求两点距离
     float distance = targetPoint.getDistance(startPoint);
@@ -155,9 +211,9 @@ void GameMap::drawRedPoint(cocos2d::Point touchPoint)
     moveTo_ = MoveTo::create(distance / 140.0f, targetPoint);
     repeat_ = RepeatForever::create(animate_);
 
-    heroSprite->stopAllActions();
-    heroSprite->runAction(moveTo_);
-    heroSprite->runAction(repeat_);
+    player_->stopAllActions();
+    player_->runAction(moveTo_);
+    player_->runAction(repeat_);
 }
 
 

@@ -5,16 +5,15 @@
 
 //Game Type
 typedef uint16 MapID_t;
-typedef uint16 CharacterID_t;
 typedef uint64 GUID_t;
 
 //行走图方向（4方向/8方向）
 enum CharacterDirection
 {
-    DIRECTION_UP,
-    DIRECTION_LEFT,
     DIRECTION_DOWN,
+    DIRECTION_LEFT,
     DIRECTION_RIGHT,
+    DIRECTION_UP,
 
     DIRECTION_MAX_FLAG
 };
@@ -28,10 +27,10 @@ namespace CharacterParameter
 //角色样式
 struct AvatarStyle
 {
-    uint32 body;
-    uint32 hair;
-    uint32 clothes;
-    uint32 weapon;
+    uint16 body;
+    uint16 hair;
+    uint16 clothes;
+    uint16 weapon;
 };
 
 /*

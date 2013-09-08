@@ -16,6 +16,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     Director* director = Director::getInstance();
     EGLView* eglView = EGLView::getInstance();
+    director->setProjection(kCCDirectorProjection2D);
 
     director->setOpenGLView(eglView);
 	

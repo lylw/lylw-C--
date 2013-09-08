@@ -26,6 +26,7 @@ enum MapLayer
     MAP_LAYER_TILED_FLAG = 3    //Í¼¿é±êÖ¾²ã
 };
 
+class ObjPlayer;
 class ObjCharacter;
 
 class GameMap 
@@ -52,8 +53,8 @@ private:
     MapID_t mapId_;
     cocos2d::TMXTiledMap* tiledMap_;
     float mapX_, mapY_;
-
-    CCSprite *heroSprite;
+    ObjPlayer* player_;
+    //CCSprite* heroSprite;
     ActionInterval* moveTo_;
     ActionInterval* repeat_;
     CCAnimate *animate_;

@@ -19,14 +19,14 @@
     <Filter Include="Classes\config\tinyxml">
       <UniqueIdentifier>{09152a37-545b-4345-9894-af49192caa5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\map">
-      <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\obj">
       <UniqueIdentifier>{9c26ed30-9430-44b6-803e-041014d16733}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\manager">
       <UniqueIdentifier>{af3dbd21-541a-44a1-9b92-b0172d33f2e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\map">
+      <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\MapManager.cpp">
       <Filter>Classes\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ObjPlayer.cpp">
+      <Filter>Classes\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

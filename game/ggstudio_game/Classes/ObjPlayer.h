@@ -3,16 +3,15 @@
 
 #include "ObjCharacter.h"
 
-
-class ObjPlayer : public ObjCharacter
+class ObjPlayer
+    : public ObjCharacter
 {
 public:
+    ObjPlayer(const GUID_t& guid);
+    ~ObjPlayer();
 
 public:
 
-
-private:
-    AvatarStyle avatarStyle_;
 };
 
 #endif // !__OBJ_PLAYER_H__
