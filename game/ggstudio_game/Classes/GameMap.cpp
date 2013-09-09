@@ -53,9 +53,10 @@ void GameMap::onLoadCompleted()
     tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
     tiledMap_->addChild(player_);
 
-    cocos2d::Animation* animation = characterFrameData->getAnimationByDirection(DIRECTION_UP);
-    animate_ = CCAnimate::create(animation);
-    repeat_ = RepeatForever::create(animate_);
+    animate_ = characterFrameData->getAnimateByDirection(DIRECTION_UP);
+    //repeat_ = RepeatForever::create(animate_);
+
+    player_->setWalkAnimate(animate_);
     ActionInterval* moveTo = MoveTo::create(2.5f, Point(265, 148));
     player_->runAction(moveTo);
     player_->runAction(repeat_);
@@ -201,8 +202,7 @@ void GameMap::drawRedPoint(cocos2d::Point touchPoint)
         direction = DIRECTION_UP;
     }
 
-    cocos2d::Animation* animation = characterFrameData->getAnimationByDirection(direction);
-    animate_ = CCAnimate::create(animation);
+    animate_ = characterFrameData->getAnimateByDirection(direction);
     repeat_ = RepeatForever::create(animate_);
 
     //ÇóÁ½µã¾àÀë
@@ -215,7 +215,6 @@ void GameMap::drawRedPoint(cocos2d::Point touchPoint)
     player_->runAction(moveTo_);
     player_->runAction(repeat_);
 }
-
 
 void GameMap::objectEnterMap(ObjCharacter* character)
 {

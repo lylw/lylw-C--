@@ -25,10 +25,11 @@ public:
     }
 
     //通过角色行走图方向获取该方向的行走动画
-    cocos2d::Animation* getAnimationByDirection(const CharacterDirection& characterDirection)
+    cocos2d::Animate* getAnimateByDirection(const CharacterDirection& characterDirection)
     {
         cocos2d::Array* frames = characterFrames_[characterDirection];
-        return cocos2d::Animation::createWithSpriteFrames(frames, CharacterParameter::kWalkFrameDelay);
+        cocos2d::Animation* animation = cocos2d::Animation::createWithSpriteFrames(frames, CharacterParameter::kWalkFrameDelay);
+        return cocos2d::Animate::create(animation);
     }
 
     cocos2d::SpriteFrame* getSpriteFrameByDirection(const CharacterDirection& characterDirection)
@@ -38,7 +39,6 @@ public:
     }
 
 private:
-    //初始化帧数组，和ResourceCachedManager是友元
     void initWithFrameArray(cocos2d::Array** arr)
     {
         CCARRAY_VERIFY_TYPE(*arr, cocos2d::SpriteFrame*);
