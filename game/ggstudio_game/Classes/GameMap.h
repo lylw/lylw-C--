@@ -47,7 +47,7 @@ public:
 private:
     void onLoadCompleted();
     CCPoint tileCoordinateFromPos(CCPoint pos);
-    void drawRedPoint(cocos2d::Point touchPoint);
+    void touchMap(const cocos2d::Point& touchPoint);
 
 private:
     MapID_t mapId_;

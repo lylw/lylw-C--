@@ -38,7 +38,7 @@ void GameMap::onLoadCompleted()
 
     //创建角色
     player_ = new ObjPlayer(696969);
-    player_->setBodyStyle(10001);
+    player_->setBodyStyle(20001);
 
     CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(player_->avatarStyle());
 
@@ -52,14 +52,6 @@ void GameMap::onLoadCompleted()
     //把角色调整到相应的层中
     tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
     tiledMap_->addChild(player_);
-
-    animate_ = characterFrameData->getAnimateByDirection(DIRECTION_UP);
-    //repeat_ = RepeatForever::create(animate_);
-
-    player_->setWalkAnimate(animate_);
-    ActionInterval* moveTo = MoveTo::create(2.5f, Point(265, 148));
-    player_->runAction(moveTo);
-    player_->runAction(repeat_);
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
@@ -99,13 +91,13 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
                 //如果没有设置block属性或者设置了block属性但不等于1，则表示当前图块是可以通行的
                 if (tileFlag == NULL || tileFlag->uintValue() == 0)
                 {
-                    drawRedPoint(touchPoint);
+                    touchMap(touchPoint);
                 }
             }
             else
             {
                 //如果图块不设置任何属性，则默认当作可以通行
-                drawRedPoint(touchPoint);
+                touchMap(touchPoint);
             }
         }
     }
@@ -135,85 +127,15 @@ CCPoint GameMap::tileCoordinateFromPos(CCPoint pos)
     }
 }
 
-void GameMap::drawRedPoint(cocos2d::Point touchPoint)
+void GameMap::touchMap(const cocos2d::Point& touchPoint)
 {
-    //画一个红点
-    //std::string redPointPath = GamePath::ICONS_DIR + "red_point.jpg";
-    //Sprite* sprite = Sprite::create(redPointPath.c_str());
-    //sprite->setPosition(touchPoint);
-    //tiledMap_->reorderChild(sprite, MapLayer::MAP_LAYER_CHARACTER);
-    //tiledMap_->addChild(sprite);
-
     const Point& startPoint = player_->getPosition();
     const Point& targetPoint = touchPoint;
 
     //目标是否和原点一样
     if (startPoint.equals(targetPoint)) return;
 
-    //计算角度
-    float radians = ccpToAngle(ccpSub(targetPoint, startPoint));
-    float degrees = -1 * CC_RADIANS_TO_DEGREES(radians); //通过宏将弧度变成角度
-
-    CCLOG("radians = %f, degrees = %f", radians, degrees);
-
-    CharacterDirection direction = DIRECTION_UP;
-    AvatarStyle avatarStyle;
-    avatarStyle.body = 10001;
-
-    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle);
-    if (degrees <= 22.5 && degrees >= -22.5) 
-    {
-        //right
-        direction = DIRECTION_RIGHT;
-    }
-    else if (degrees > 22.5 && degrees < 67.5)
-    {
-        //bottomright
-        direction = DIRECTION_RIGHT;
-    }
-    else if (degrees >= 67.5 && degrees <= 112.5)
-    {
-        //bottom
-        direction = DIRECTION_DOWN;
-    }
-    else if (degrees > 112.5 && degrees < 157.5)
-    {
-        //bottomleft
-        direction = DIRECTION_DOWN;
-    }
-    else if (degrees >= 157.5 || degrees <= -157.5)
-    {
-        //left
-        direction = DIRECTION_LEFT;
-    }
-    else if (degrees < -22.5 && degrees > -67.5)
-    {
-        //topright
-        direction = DIRECTION_UP;
-    }
-    else if (degrees <= -67.5 && degrees >= -112.5)
-    {
-        //top
-        direction = DIRECTION_UP;
-    }
-    else if (degrees < -112.5 && degrees > -157.5)
-    {
-        //topleft
-        direction = DIRECTION_UP;
-    }
-
-    animate_ = characterFrameData->getAnimateByDirection(direction);
-    repeat_ = RepeatForever::create(animate_);
-
-    //求两点距离
-    float distance = targetPoint.getDistance(startPoint);
-
-    moveTo_ = MoveTo::create(distance / 140.0f, targetPoint);
-    repeat_ = RepeatForever::create(animate_);
-
-    player_->stopAllActions();
-    player_->runAction(moveTo_);
-    player_->runAction(repeat_);
+    player_->moveTo(targetPoint);
 }
 
 void GameMap::objectEnterMap(ObjCharacter* character)

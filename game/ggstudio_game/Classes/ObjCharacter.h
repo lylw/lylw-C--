@@ -5,6 +5,7 @@
 #include "GameDef.h"
 
 class GameMap;
+class CharacterFrameData;
 class ObjCharacter : public cocos2d::Sprite
 {
 public:
@@ -21,18 +22,25 @@ public:
     void setWeaponStyle(const uint16& bodyStyle);
 
 public:
-    void setWalkAnimate(cocos2d::Animate* moveAnimate);
     void moveTo(const cocos2d::Point& target);
+    void moveFinished();
 
 private:
     GUID_t guid_;
     ObjType type_;
     GameMap* currentMap_;
     AvatarStyle avatarStyle_;
+    uint16 moveSpeed_;
+    CharacterDirection direction_;
+    CharacterDirection lastDirection_;
+    bool isMoving_;
+    bool reMoving_;
 
 private:
-    cocos2d::ActionInterval* moveAction_;
-    cocos2d::ActionInterval* walkRepeatAction_;
+    cocos2d::Sequence* moveSequenceAction_;
+    cocos2d::MoveTo* moveAction_;
+    cocos2d::RepeatForever* walkRepeatAction_;
+
 };
 
 #endif

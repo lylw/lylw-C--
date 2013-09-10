@@ -8,6 +8,7 @@ typedef uint16 MapID_t;
 typedef uint64 GUID_t;
 
 //行走图方向（4方向/8方向）
+#define CHARACTER_MODE_EIGHT_DIRECTION
 enum CharacterDirection
 {
     DIRECTION_DOWN,
@@ -15,13 +16,21 @@ enum CharacterDirection
     DIRECTION_RIGHT,
     DIRECTION_UP,
 
+    //是否使用八方向
+#if defined(CHARACTER_MODE_EIGHT_DIRECTION)
+    DIRECTION_LEFT_DOWN,
+    DIRECTION_RIGHT_DOWN,
+    DIRECTION_LEFT_UP,
+    DIRECTION_RIGHT_UP,
+#endif
+
     DIRECTION_MAX_FLAG
 };
 
 namespace CharacterParameter
 {
-    static const uint8 kWalkFrameCount = 4;         //角色行走动画帧数
-    static const float kWalkFrameDelay = 0.2f;      //角色行走动画每帧的间隔时间（秒）
+    static const uint8 kWalkFrameCount = 8;         //角色行走动画帧数
+    static const float kWalkFrameDelay = 0.1f;      //角色行走动画每帧的间隔时间（秒）
 }
 
 //角色样式
@@ -53,6 +62,7 @@ enum ObjType
 基本动作动画类型
     · standard  待机动作
     · attack    攻击动作
+    · move      移动动画
     · walk      行走动作
     · run       跑步动作
     · action    特殊动作（通常用于技能动作）
@@ -64,10 +74,11 @@ enum ActionType
     ACTION_TYPE_INVALID  = 0,
     ACTION_TYPE_STANDARD = 1,
     ACTION_TYPE_ATTACK   = 2,
-    ACTION_TYPE_WALK     = 3,
-    ACTION_TYPE_RUN      = 4,
-    ACTION_TYPE_ACTION   = 5,
-    ACTION_TYPE_DIE      = 6,
+    ACTION_TYPE_MOVING   = 3,
+    ACTION_TYPE_WALKING  = 4,
+    ACTION_TYPE_RUNNING  = 5,
+    ACTION_TYPE_ACTION   = 6,
+    ACTION_TYPE_DIE      = 7,
 
     ACTION_TYPE_MAX_FLAG
 };
