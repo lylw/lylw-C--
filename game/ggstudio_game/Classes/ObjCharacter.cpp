@@ -11,7 +11,7 @@ ObjCharacter::ObjCharacter(const GUID_t& guid, const ObjType& objType/* = ObjTyp
     isMoving_(false),
     reMoving_(false),
     direction_(DIRECTION_UP),
-    lastDirection_(DIRECTION_UP)
+    lastDirection_(DIRECTION_DOWN)
 {
 }
 
@@ -123,47 +123,39 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
         direction_ = DIRECTION_UP;
     }
 
-    //如果在重新下走路指令时改变了方向，则改变为不同方向行走动画
-    if (reMoving_ == true && (direction_ != lastDirection_))
+    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle_);
+    cocos2d::Animate* moveAnimate = characterFrameData->getAnimateByDirection(direction_);
+    if (walkRepeatAction_ == NULL)
     {
-        CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle_);
-        cocos2d::Animate* moveAnimate = characterFrameData->getAnimateByDirection(direction_);
-        //if (walkRepeatAction_ == NULL)
-        //{
-            walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
-        //    walkRepeatAction_->setTag(ACTION_TYPE_WALKING);
-        //}
+        walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
+        this->runAction(walkRepeatAction_);
 
-        lastDirection_ = direction_;
-        //walkRepeatAction_->initWithAction(moveAnimate);
-        //walkRepeatAction_->retain();
-        CCLOG("walkRepeatAction_ RetainCount = %d", walkRepeatAction_->retainCount());
+    }
+
+    //如果在重新下走路指令时改变了方向，则改变为不同方向行走动画
+    if (reMoving_ == true)
+    {
+        if (direction_ != lastDirection_)
+        {
+            this->stopAction(walkRepeatAction_);
+            walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
+            lastDirection_ = direction_;
+            CCLOG("walkRepeatAction_ RetainCount = %d", walkRepeatAction_->retainCount());
+            this->runAction(walkRepeatAction_);
+
+        }
     }
 
     //取得两点距离
     float distance = target.getDistance(this->getPosition());
+    moveAction_ = cocos2d::MoveTo::create(distance / moveSpeed_, target);
+    CCLOG("moveAction_ RetainCount = %d", moveAction_->retainCount());
 
-    //创建移动行为
-    //if (moveAction_ == NULL)
-    //{
-        moveAction_ = cocos2d::MoveTo::create(distance / moveSpeed_, target);
-    //}
-    
-    //moveAction_->initWithDuration(distance / moveSpeed_, target);
-    //moveAction_->retain();
-    //CCLOG("moveAction_ RetainCount = %d", moveAction_->retainCount());
-
-    //this->stopAllActions();
     this->stopAction(moveSequenceAction_);
     moveSequenceAction_ = cocos2d::Sequence::create(
         moveAction_, cocos2d::CallFunc::create(this, callfunc_selector(ObjCharacter::moveFinished)), NULL);
 
     this->runAction(moveSequenceAction_);
-
-    if (reMoving_ == true && (direction_ != lastDirection_))
-    {
-        this->runAction(walkRepeatAction_);
-    }
 
     isMoving_ = true;
 }
@@ -174,6 +166,7 @@ void ObjCharacter::moveFinished()
     cocos2d::SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(direction_);
     this->setDisplayFrame(spriteFrame);
     this->stopAction(walkRepeatAction_);
+    walkRepeatAction_ = NULL;
 
     isMoving_ = false;
     reMoving_ = false;

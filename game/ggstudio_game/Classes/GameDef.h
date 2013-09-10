@@ -17,7 +17,7 @@ enum CharacterDirection
     DIRECTION_UP,
 
     //是否使用八方向
-#if defined(CHARACTER_MODE_EIGHT_DIRECTION)
+#if defined (CHARACTER_MODE_EIGHT_DIRECTION)
     DIRECTION_LEFT_DOWN,
     DIRECTION_RIGHT_DOWN,
     DIRECTION_LEFT_UP,
