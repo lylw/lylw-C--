@@ -20,6 +20,19 @@ ObjCharacter::~ObjCharacter()
 
 }
 
+void ObjCharacter::init(const AvatarStyle& avatarStyle)
+{
+    avatarStyle_ = avatarStyle;
+    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle_);
+    cocos2d::SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(DIRECTION_UP);
+
+    initWithSpriteFrame(spriteFrame);
+    setPosition(cocos2d::Point(0, 0));
+
+    //设置描点为脚底（之后通过角色编辑器编辑锚点，因为可能有些角色的锚点并不在脚下）
+    setAnchorPoint(cocos2d::Point(0.5f, 0));
+}
+
 void ObjCharacter::setGUID(const GUID_t& guid)
 {
     guid_ = guid;
@@ -53,6 +66,8 @@ void ObjCharacter::setWeaponStyle(const uint16& weaponStyle)
 
 void ObjCharacter::moveTo(const cocos2d::Point& target)
 {
+    CCLOG("MoveTarget (x = %f, y = %f)", target.x, target.y);
+
     //判断是开始走路还是在走路过程中重新发走路指令
     reMoving_ = (isMoving_ == true);
 
@@ -129,7 +144,6 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
     {
         walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
         this->runAction(walkRepeatAction_);
-
     }
 
     //如果在重新下走路指令时改变了方向，则改变为不同方向行走动画
@@ -140,7 +154,6 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
             this->stopAction(walkRepeatAction_);
             walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
             lastDirection_ = direction_;
-            CCLOG("walkRepeatAction_ RetainCount = %d", walkRepeatAction_->retainCount());
             this->runAction(walkRepeatAction_);
 
         }
@@ -149,7 +162,6 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
     //取得两点距离
     float distance = target.getDistance(this->getPosition());
     moveAction_ = cocos2d::MoveTo::create(distance / moveSpeed_, target);
-    CCLOG("moveAction_ RetainCount = %d", moveAction_->retainCount());
 
     this->stopAction(moveSequenceAction_);
     moveSequenceAction_ = cocos2d::Sequence::create(

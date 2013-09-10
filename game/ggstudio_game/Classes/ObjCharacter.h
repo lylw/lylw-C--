@@ -13,6 +13,9 @@ public:
     virtual ~ObjCharacter();
 
 public:
+    void init(const AvatarStyle& avatarStyle);
+
+public:
     void setGUID(const GUID_t& guid);
     const AvatarStyle& avatarStyle() const;
     

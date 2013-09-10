@@ -2,6 +2,7 @@
 #include "GameMap.h"
 #include "ResourceCachedManager.h"
 #include "ObjPlayer.h"
+#include <random>
 
 GameMap::GameMap(const MapID_t& mapId)
     : tiledMap_(NULL), mapId_(mapId), player_(NULL)
@@ -36,22 +37,36 @@ void GameMap::onLoadCompleted()
     tiledMap_->setPosition(0, 0);
     this->addChild(tiledMap_, 0);
 
+    AvatarStyle avatarStyle;
+    avatarStyle.body = 20001;
+
     //创建角色
     player_ = new ObjPlayer(696969);
-    player_->setBodyStyle(20001);
-
-    CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(player_->avatarStyle());
-
-    SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(DIRECTION_UP);
-    player_->initWithSpriteFrame(spriteFrame);
-    player_->setPosition(ccp(265, 148));
-
-    //设置描点为脚底（之后通过角色编辑器编辑锚点，因为可能有些角色的锚点并不在脚下）
-    player_->setAnchorPoint(ccp(0.5, 0));
+    player_->init(avatarStyle);
 
     //把角色调整到相应的层中
     tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
-    tiledMap_->addChild(player_);
+    tiledMap_->addChild(player_, player_->getPositionY());
+
+
+    //创建一些随机角色
+    /*std::default_random_engine generator;  
+    std::uniform_int_distribution<int> r_avatar(20002, 20008);
+
+    std::uniform_int_distribution<int> r_point_x(0, 960);
+    std::uniform_int_distribution<int> r_point_y(0, 640);
+
+    for (int i = 0; i < 200; ++i)
+    {
+        avatarStyle.body = r_avatar(generator);
+        ObjPlayer* random_player = new ObjPlayer(i);
+        random_player->init(avatarStyle);
+        random_player->setPosition(cocos2d::Point(r_point_x(generator), r_point_y(generator)));
+
+        tiledMap_->addChild(random_player);
+        tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
+    }*/
+
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
