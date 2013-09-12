@@ -27,14 +27,16 @@ bool GameMap::init(void)
 
 void GameMap::onLoadCompleted()
 {
-    std::string resource = GamePath::MAP_DIR + MapConfig::getInstance().getMapFileName(10000);
+    std::string resource = GamePath::MAP_DIR + MapConfig::getInstance().getMapFileName(mapId_);
     std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
 
     //加载地图
     tiledMap_ = new cocos2d::TMXTiledMap();
     FileUtils::sharedFileUtils()->addSearchPath(GamePath::MAP_DIR.c_str());
     tiledMap_->initWithTMXFile(fullPath.c_str());
-    tiledMap_->setPosition(0, 0);
+    //tiledMap_->setPosition(0, 0);
+    Size s = tiledMap_->getContentSize();
+    tiledMap_->setPosition(Point(-s.width / 2, 0));
     this->addChild(tiledMap_, 0);
 
     AvatarStyle avatarStyle;
@@ -44,13 +46,21 @@ void GameMap::onLoadCompleted()
     player_ = new ObjPlayer(696969);
     player_->init(avatarStyle);
 
+    TMXLayer* layer = tiledMap_->getLayer("Trees");
+    if (layer != NULL)
+    {
+        //layer->appendChild(player_);
+        player_ = (ObjPlayer*)layer->getTileAt(Point(29,29));
+        //layer->addChild(player_, player_->getPositionY());
+    }
+
     //把角色调整到相应的层中
-    tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
-    tiledMap_->addChild(player_, player_->getPositionY());
+    //tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
+    //tiledMap_->addChild(player_, player_->getPositionY());
 
 
     //创建一些随机角色
-    /*std::default_random_engine generator;  
+    std::default_random_engine generator;  
     std::uniform_int_distribution<int> r_avatar(20002, 20008);
 
     std::uniform_int_distribution<int> r_point_x(0, 960);
@@ -63,9 +73,10 @@ void GameMap::onLoadCompleted()
         random_player->init(avatarStyle);
         random_player->setPosition(cocos2d::Point(r_point_x(generator), r_point_y(generator)));
 
-        tiledMap_->addChild(random_player);
-        tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
-    }*/
+        //tiledMap_->addChild(random_player);
+        //tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
+        //layer->addChild(random_player, random_player->getPositionY(), random_player->getPositionY());
+    }
 
 }
 
@@ -74,9 +85,15 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
     //获取第一个触摸点
     CCTouch* touch = reinterpret_cast<CCTouch *>(pTouches->anyObject());
 
+
     //获取触摸坐标
     //注意，升级到cocos2d-3.0 beta版本后，getLocationInView()是没有参数的。
     CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(touch->getLocationInView());
+
+#if _DEBUG
+    touchMap(touchPoint);
+    return;
+#endif
 
     //由触摸坐标转到地图坐标
     CCPoint mapPoint = this->tileCoordinateFromPos(ccp(touchPoint.x - mapX_, touchPoint.y - mapY_));

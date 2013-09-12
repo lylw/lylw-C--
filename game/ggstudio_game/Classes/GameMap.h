@@ -19,11 +19,11 @@ enum TileFlag
 //图层
 enum MapLayer
 {
-    MAP_LAYER_UNDERWORLD = -1,          //地底
-    MAP_LAYER_GROUND     = 0,           //地表层
-    MAP_LAYER_CHARACTER  = 1,           //角色层（包括NPC，怪物等）
-    MAP_LAYER_OBJECTS    = 100000000,   //地图对象层
-    MAP_LAYER_TILED_FLAG = 200000000    //图块标志层
+    MAP_LAYER_UNDERWORLD = -1,  //地底
+    MAP_LAYER_GROUND     = 0,   //地表层
+    MAP_LAYER_CHARACTER  = 1,   //角色层（包括NPC，怪物等）
+    MAP_LAYER_OBJECTS    = 2,   //地图对象层
+    MAP_LAYER_TILED_FLAG = 3    //图块标志层
 };
 
 class ObjPlayer;
