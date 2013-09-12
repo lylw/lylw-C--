@@ -4,25 +4,19 @@
 #include <QMainWindow>
 
 namespace Ui {
-class IrregularWidget;
+class MainWindow;
 }
 
-class IrregularWidget : public QWidget    
-{    
-    Q_OBJECT    
-public:    
-    IrregularWidget(QWidget *parent = 0);    
-  
-protected:    
-    void mousePressEvent(QMouseEvent *event);    
-    void mouseMoveEvent(QMouseEvent *event);    
-    void paintEvent(QPaintEvent *event);    
-    void enterEvent(QEvent *event);    
-    void leaveEvent(QEvent *event);    
-  
-private:    
-    QPoint m_CurrentPos;    
-    QPixmap m_Pixmap;    
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+    
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    
+private:
+    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H

@@ -20,10 +20,10 @@ bool MapConfig::loadConfig()
     }
 
     TiXmlElement* rootElement = document.RootElement();
-    if (rootElement != NULL && !rootElement->NoChildren())
+    if (rootElement != nullptr && !rootElement->NoChildren())
     {
         TiXmlElement* mapElement = rootElement->FirstChildElement();
-        for (; mapElement != NULL; mapElement = mapElement->NextSiblingElement())
+        for (; mapElement != nullptr; mapElement = mapElement->NextSiblingElement())
         {
             int mapid;
             mapElement->Attribute("id", &mapid);

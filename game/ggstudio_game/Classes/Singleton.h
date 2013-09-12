@@ -9,7 +9,7 @@ class Singleton
 public:
     static T& getInstance()
     {
-        if (NULL == instance_m)
+        if (nullptr == instance_m)
         {
             instance_m = new T;
             if (mustDelete) atexit(releaseInstance);
@@ -28,7 +28,7 @@ public:
         if (instance_m && mustDelete)
         {
             delete instance_m;
-            instance_m = NULL;
+            instance_m = nullptr;
         }
     }
 protected:
@@ -40,7 +40,7 @@ private:
     static T* instance_m;
 };
 
-template <class T, bool mustDelete> T* Singleton<T, mustDelete>::instance_m = NULL;
+template <class T, bool mustDelete> T* Singleton<T, mustDelete>::instance_m = nullptr;
 
 template <typename T>
 class SingletonEx
@@ -73,6 +73,6 @@ protected:
     static T* instance_m;
 };
 
-template <typename T> T* SingletonEx<T>::instance_m = NULL;
+template <typename T> T* SingletonEx<T>::instance_m = nullptr;
 
 #endif // __SINGLETON_H__

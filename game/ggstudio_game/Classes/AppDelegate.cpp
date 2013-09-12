@@ -32,7 +32,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     MapConfig::getInstance().init();
 
     // create a Map. it's an autorelease object
-    GameMap* gameMap = new GameMap(10001);
+    GameMap* gameMap = new GameMap(10000);
     gameMap->init();
 
     cocos2d::Scene* scene = cocos2d::Scene::create();

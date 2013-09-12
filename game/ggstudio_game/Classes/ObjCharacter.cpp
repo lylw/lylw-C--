@@ -140,7 +140,7 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
 
     CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle_);
     cocos2d::Animate* moveAnimate = characterFrameData->getAnimateByDirection(direction_);
-    if (walkRepeatAction_ == NULL)
+    if (walkRepeatAction_ == nullptr)
     {
         walkRepeatAction_ = cocos2d::RepeatForever::create(moveAnimate);
         this->runAction(walkRepeatAction_);
@@ -165,7 +165,7 @@ void ObjCharacter::moveTo(const cocos2d::Point& target)
 
     this->stopAction(moveSequenceAction_);
     moveSequenceAction_ = cocos2d::Sequence::create(
-        moveAction_, cocos2d::CallFunc::create(this, callfunc_selector(ObjCharacter::moveFinished)), NULL);
+        moveAction_, cocos2d::CallFunc::create(this, callfunc_selector(ObjCharacter::moveFinished)), nullptr);
 
     this->runAction(moveSequenceAction_);
 
@@ -178,7 +178,7 @@ void ObjCharacter::moveFinished()
     cocos2d::SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(direction_);
     this->setDisplayFrame(spriteFrame);
     this->stopAction(walkRepeatAction_);
-    walkRepeatAction_ = NULL;
+    walkRepeatAction_ = nullptr;
 
     isMoving_ = false;
     reMoving_ = false;

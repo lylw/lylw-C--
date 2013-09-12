@@ -106,6 +106,6 @@ static double swapdouble(const double& p)
 #endif
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(x)	if (NULL != (x)) { delete (x); (x) = NULL; }
+#define SAFE_DELETE(x)	if (nullptr != (x)) { delete (x); (x) = nullptr; }
 #endif
 #endif

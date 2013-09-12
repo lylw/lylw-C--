@@ -5,7 +5,7 @@
 #include <random>
 
 GameMap::GameMap(const MapID_t& mapId)
-    : tiledMap_(NULL), mapId_(mapId), player_(NULL)
+    : tiledMap_(nullptr), mapId_(mapId), player_(nullptr)
 {
 }
 
@@ -34,9 +34,9 @@ void GameMap::onLoadCompleted()
     tiledMap_ = new cocos2d::TMXTiledMap();
     FileUtils::sharedFileUtils()->addSearchPath(GamePath::MAP_DIR.c_str());
     tiledMap_->initWithTMXFile(fullPath.c_str());
-    //tiledMap_->setPosition(0, 0);
-    Size s = tiledMap_->getContentSize();
-    tiledMap_->setPosition(Point(-s.width / 2, 0));
+    tiledMap_->setPosition(0, 0);
+    //Size s = tiledMap_->getContentSize();
+    //tiledMap_->setPosition(Point(-s.width / 2, 0));
     this->addChild(tiledMap_, 0);
 
     AvatarStyle avatarStyle;
@@ -46,18 +46,9 @@ void GameMap::onLoadCompleted()
     player_ = new ObjPlayer(696969);
     player_->init(avatarStyle);
 
-    TMXLayer* layer = tiledMap_->getLayer("Trees");
-    if (layer != NULL)
-    {
-        //layer->appendChild(player_);
-        player_ = (ObjPlayer*)layer->getTileAt(Point(29,29));
-        //layer->addChild(player_, player_->getPositionY());
-    }
-
     //把角色调整到相应的层中
-    //tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
-    //tiledMap_->addChild(player_, player_->getPositionY());
-
+    tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
+    tiledMap_->addChild(player_, player_->getPositionY());
 
     //创建一些随机角色
     std::default_random_engine generator;  
@@ -73,9 +64,8 @@ void GameMap::onLoadCompleted()
         random_player->init(avatarStyle);
         random_player->setPosition(cocos2d::Point(r_point_x(generator), r_point_y(generator)));
 
-        //tiledMap_->addChild(random_player);
-        //tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
-        //layer->addChild(random_player, random_player->getPositionY(), random_player->getPositionY());
+        tiledMap_->addChild(random_player);
+        tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
     }
 
 }
@@ -103,7 +93,7 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
     {
         //取得图块标志层
         CCTMXLayer* flag_layer = tiledMap_->layerNamed("flag_layer");
-        if (flag_layer == NULL)
+        if (flag_layer == nullptr)
         {
             return;
         }
@@ -116,12 +106,12 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
         {
             //根据图块ID获取图块的所有属性
             cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
-            if (dictionary != NULL && dictionary->count() != 0)
+            if (dictionary != nullptr && dictionary->count() != 0)
             {
                 const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
 
                 //如果没有设置block属性或者设置了block属性但不等于1，则表示当前图块是可以通行的
-                if (tileFlag == NULL || tileFlag->uintValue() == 0)
+                if (tileFlag == nullptr || tileFlag->uintValue() == 0)
                 {
                     touchMap(touchPoint);
                 }
@@ -139,7 +129,7 @@ CCPoint GameMap::tileCoordinateFromPos(CCPoint pos)
 {
     int cox, coy;
     CCTMXLayer *ly = tiledMap_->getLayer("objects_layer");
-    if (ly == NULL)
+    if (ly == nullptr)
     {
         return ccp(-1, -1);
     }

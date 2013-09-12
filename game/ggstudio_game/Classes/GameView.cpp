@@ -27,7 +27,7 @@ GameView* GameView::create(const std::string& name)
     if (!name.empty())
     {
         GameView* Map = new GameView();
-        if (Map != NULL && Map->initWithName(name))
+        if (Map != nullptr && Map->initWithName(name))
         {
             Map->autorelease();
             return Map;
@@ -35,11 +35,11 @@ GameView* GameView::create(const std::string& name)
         else
         {
             delete Map;
-            Map = NULL;
+            Map = nullptr;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void GameView::addGameLayerNode(cocos2d::CCNode* layer, uint8 type)

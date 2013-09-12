@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2013-09-04T20:34:09
+# Project created by QtCreator 2013-09-12T13:22:44
 #
 #-------------------------------------------------
 
@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    irregularwidget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    irregularwidget.h
 
 FORMS    += mainwindow.ui

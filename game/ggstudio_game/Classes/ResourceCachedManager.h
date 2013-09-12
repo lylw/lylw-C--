@@ -88,7 +88,7 @@ public:
             return loadCharacterSpriteFrames(avatarStyle);
         }
 
-        return NULL;
+        return nullptr;
     }
 
 private:
