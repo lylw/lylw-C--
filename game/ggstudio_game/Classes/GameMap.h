@@ -38,6 +38,7 @@ public:
 
 public:
     bool init();
+    void addCharacter(ObjCharacter* character);
     void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
 
 public:
@@ -48,6 +49,8 @@ private:
     void onLoadCompleted();
     CCPoint tileCoordinateFromPos(CCPoint pos);
     void touchMap(const cocos2d::Point& touchPoint);
+
+    void repositionSprite(float dt);
 
 private:
     MapID_t mapId_;

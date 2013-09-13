@@ -31,10 +31,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //load config
     MapConfig::getInstance().init();
 
-    // create a Map. it's an autorelease object
+    //创建一个地图实例
     GameMap* gameMap = new GameMap(10000);
     gameMap->init();
 
+    //创建场景对象
     cocos2d::Scene* scene = cocos2d::Scene::create();
     scene->addChild(gameMap);
 

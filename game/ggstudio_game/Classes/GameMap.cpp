@@ -5,7 +5,7 @@
 #include <random>
 
 GameMap::GameMap(const MapID_t& mapId)
-    : tiledMap_(nullptr), mapId_(mapId), player_(nullptr)
+    : tiledMap_(nullptr), mapId_(mapId), player_(nullptr), mapX_(0), mapY_(0)
 {
 }
 
@@ -17,45 +17,74 @@ GameMap::~GameMap()
 
 bool GameMap::init(void)
 {
-    mapX_ = 0;
-    mapY_ = 0;
     this->setTouchEnabled(true);
-    onLoadCompleted();
 
-    return true;
-}
-
-void GameMap::onLoadCompleted()
-{
     std::string resource = GamePath::MAP_DIR + MapConfig::getInstance().getMapFileName(mapId_);
     std::string fullPath = CCFileUtils::getInstance()->fullPathForFilename(resource.c_str());
 
     //加载地图
     tiledMap_ = new cocos2d::TMXTiledMap();
-    FileUtils::sharedFileUtils()->addSearchPath(GamePath::MAP_DIR.c_str());
+    FileUtils::getInstance()->addSearchPath(GamePath::MAP_DIR.c_str());
     tiledMap_->initWithTMXFile(fullPath.c_str());
     tiledMap_->setPosition(0, 0);
-    //Size s = tiledMap_->getContentSize();
-    //tiledMap_->setPosition(Point(-s.width / 2, 0));
     this->addChild(tiledMap_, 0);
 
+    //重置所有图块zorder
+    Size mapSize = tiledMap_->getMapSize();
+    Object* layer_obj = nullptr;
+    CCARRAY_FOREACH(tiledMap_->getChildren(), layer_obj)
+    {
+        TMXLayer* layer = static_cast<TMXLayer*>(layer_obj);
+
+        for(uint32 y = 0; y < layer->getLayerSize().height; ++y)
+        {
+            int zorder = mapSize.height - y;
+            for(uint32 x = 0; x < layer->getLayerSize().width; ++x)
+            {
+                cocos2d::Sprite* sprite = layer->getTileAt(ccp(x, y));
+                if (sprite != nullptr)
+                {
+                    sprite->setZOrder(zorder);
+                    //sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
+                    //CCLOG("current tile(x = %d, y=%d, zorder=%d)", x, y, zorder);
+                }
+            }
+        }
+    }
+
+
+    onLoadCompleted();
+
+    return true;
+}
+
+void GameMap::addCharacter(ObjCharacter* character)
+{
+    int zorder = tiledMap_->getMapSize().height - character->getPosition().y / tiledMap_->getTileSize().height;
+    tiledMap_->addChild(character, zorder);
+}
+
+void GameMap::onLoadCompleted()
+{
     AvatarStyle avatarStyle;
     avatarStyle.body = 20001;
 
     //创建角色
     player_ = new ObjPlayer(696969);
     player_->init(avatarStyle);
+    player_->setPosition(ccp(73, 99));
 
     //把角色调整到相应的层中
-    tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
-    tiledMap_->addChild(player_, player_->getPositionY());
+    //tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
+    this->addCharacter(player_);
+
+    schedule(schedule_selector(GameMap::repositionSprite));
 
     //创建一些随机角色
     std::default_random_engine generator;  
     std::uniform_int_distribution<int> r_avatar(20002, 20008);
-
-    std::uniform_int_distribution<int> r_point_x(0, 960);
-    std::uniform_int_distribution<int> r_point_y(0, 640);
+    std::uniform_int_distribution<int> r_point_x(0, EGLView::getInstance()->getFrameSize().width);
+    std::uniform_int_distribution<int> r_point_y(0, EGLView::getInstance()->getFrameSize().height);
 
     for (int i = 0; i < 200; ++i)
     {
@@ -63,10 +92,16 @@ void GameMap::onLoadCompleted()
         ObjPlayer* random_player = new ObjPlayer(i);
         random_player->init(avatarStyle);
         random_player->setPosition(cocos2d::Point(r_point_x(generator), r_point_y(generator)));
-
-        tiledMap_->addChild(random_player);
-        tiledMap_->reorderChild(random_player, tiledMap_->getContentSize().height - random_player->getPositionY());
+        addCharacter(random_player);
     }
+
+}
+
+void GameMap::repositionSprite(float dt)
+{
+    int zorder = tiledMap_->getMapSize().height - player_->getPosition().y / tiledMap_->getTileSize().height;
+    player_->setZOrder(zorder-1);
+    CCLOG("rezorder = %d",zorder);
 
 }
 
@@ -79,11 +114,6 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
     //获取触摸坐标
     //注意，升级到cocos2d-3.0 beta版本后，getLocationInView()是没有参数的。
     CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(touch->getLocationInView());
-
-#if _DEBUG
-    touchMap(touchPoint);
-    return;
-#endif
 
     //由触摸坐标转到地图坐标
     CCPoint mapPoint = this->tileCoordinateFromPos(ccp(touchPoint.x - mapX_, touchPoint.y - mapY_));
@@ -127,19 +157,13 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
 
 CCPoint GameMap::tileCoordinateFromPos(CCPoint pos)
 {
-    int cox, coy;
-    CCTMXLayer *ly = tiledMap_->getLayer("objects_layer");
-    if (ly == nullptr)
-    {
-        return ccp(-1, -1);
-    }
-    CCSize szLayer = ly->getLayerSize();
-    CCSize szTile = tiledMap_->getTileSize();
+    cocos2d::Size szMapSize = tiledMap_->getMapSize();
+    cocos2d::Size szTile = tiledMap_->getTileSize();
 
-    cox = pos.x / szTile.width;
-    coy = szLayer.height - pos.y / szTile.height;
+    int cox = pos.x / szTile.width;
+    int coy = szMapSize.height - pos.y / szTile.height;
 
-    if ((cox >= 0) && (cox < szLayer.width) && (coy >= 0) && (coy < szLayer.height))
+    if ((cox >= 0) && (cox < szMapSize.width) && (coy >= 0) && (coy < szMapSize.height))
     {
         return ccp(cox, coy);
     }
