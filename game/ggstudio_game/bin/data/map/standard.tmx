@@ -2,8 +2,8 @@
 <!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="16" tileheight="16">
  <properties>
-  <property name="_MapDescription" value="相传此平原乃前辈抛下的节操所形成\n长期在此修炼可提升你的节操"/>
-  <property name="_MapName" value="节操平原"/>
+  <property name="_MapDescription" value="相传前辈们掉落了无数节操\n在此处修炼可提升你的节操\n得节操者得天下\n我是长文本有种你就不让我显示完整哈哈你说我为何要这么屌"/>
+  <property name="_MapName" value="- 节操之地 -"/>
  </properties>
  <tileset firstgid="1" name="002-Woods01" tilewidth="16" tileheight="16">
   <image source="002-Woods01.png" trans="ffffff" width="256" height="800"/>

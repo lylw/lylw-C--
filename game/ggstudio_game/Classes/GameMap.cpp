@@ -4,6 +4,7 @@
 #include "ObjPlayer.h"
 #include <random>
 #include "TextureUtils.h"
+#include "StringUtil.h"
 
 GameMap::GameMap(const MapID_t& mapId)
     : tiledMap_(nullptr), mapId_(mapId), player_(nullptr), mapX_(0), mapY_(0)
@@ -46,30 +47,74 @@ bool GameMap::init(void)
                 if (sprite != nullptr)
                 {
                     sprite->setZOrder(zorder);
-                    //sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
+                    sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
                     //CCLOG("current tile(x = %d, y=%d, zorder=%d)", x, y, zorder);
                 }
             }
         }
     }
 
+    showMapDiscription();
+    onLoadCompleted();
+
+    return true;
+}
+
+void GameMap::showMapDiscription()
+{
+    //先取得地图名吧
     cocos2d::String* mapNamePropertyPtr = tiledMap_->getProperty("_MapName");
     if (mapNamePropertyPtr != nullptr)
     {
         const char* mapName = mapNamePropertyPtr->getCString();
-        LabelTTF* lable = LabelTTF::create(mapName, "微软雅黑", 30.0f);
+        LabelTTF* lable = LabelTTF::create(mapName, "@幼圆", 30.0f);
 
-        RenderTexture* renderTexture = createStroke(lable, 0.7f, Color3B(0, 0, 0));
-        lable->setPosition(ccp(400, 100));
-        renderTexture->setPosition(ccp(400, 100));
+        RenderTexture* renderTexture = createStroke(lable, 0.7f, Color3B(0, 0, 120));
+
+        float x = EGLView::getInstance()->getFrameSize().width - lable->getContentSize().height;
+        float y = EGLView::getInstance()->getFrameSize().height - EGLView::getInstance()->getFrameSize().height / 4;
+
+        lable->setPosition(ccp(x, y));
+        lable->setRotation(90);
+
+        renderTexture->setPosition(ccp(x, y));
+        renderTexture->setRotation(90);
         this->addChild(renderTexture, 1);
         this->addChild(lable, 2);
     }
 
+    //然后取得描述
+    cocos2d::String* mapDescriptionPtr = tiledMap_->getProperty("_MapDescription");
+    if (mapDescriptionPtr != nullptr)
+    {
+        const char* mapDescription = mapDescriptionPtr->getCString();
+        CCLOG("map discription = %s", mapDescription);
+        std::vector<std::string> descriptionSentences;
+        StringUtil::splitString(mapDescription, "\\n", descriptionSentences);
 
-    onLoadCompleted();
+        if (descriptionSentences.empty())
+            return;
 
-    return true;
+        for (int i = 0; i < descriptionSentences.size(); ++i)
+        {
+            LabelTTF* lable = LabelTTF::create(descriptionSentences[i].c_str(), "@幼圆", 30.0f);
+            RenderTexture* renderTexture = createStroke(lable, 0.7f, Color3B(0, 0, 0));
+
+            float x = EGLView::getInstance()->getFrameSize().width - lable->getContentSize().height - (i == 0 ? 80 : (i + 1) * lable->getContentSize().height + 50);
+            float y = EGLView::getInstance()->getFrameSize().height - EGLView::getInstance()->getFrameSize().height / 3;
+
+            lable->setHorizontalAlignment(cocos2d::Label::HAlignment::LEFT);
+            lable->setVerticalAlignment(cocos2d::Label::VAlignment::CENTER);
+            lable->setPosition(ccp(x, y));
+            lable->setRotation(90);
+
+            renderTexture->setPosition(ccp(x, y));
+            renderTexture->setRotation(90);
+            this->addChild(renderTexture, 1);
+            this->addChild(lable, 2);
+        }
+    
+    }
 }
 
 void GameMap::addCharacter(ObjCharacter* character)
@@ -115,8 +160,7 @@ void GameMap::repositionSprite(float dt)
 {
     int zorder = tiledMap_->getMapSize().height - player_->getPosition().y / tiledMap_->getTileSize().height;
     player_->setZOrder(zorder-1);
-    CCLOG("rezorder = %d",zorder);
-
+    //CCLOG("rezorder = %d",zorder);
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)

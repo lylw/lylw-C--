@@ -148,6 +148,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClCompile Include="..\Classes\MapManager.cpp" />
     <ClCompile Include="..\Classes\ObjCharacter.cpp" />
     <ClCompile Include="..\Classes\ObjPlayer.cpp" />
+    <ClCompile Include="..\Classes\StringUtil.cpp" />
     <ClCompile Include="..\Classes\TextureUtils.h" />
     <ClCompile Include="..\Classes\tinystr.cpp" />
     <ClCompile Include="..\Classes\tinyxml.cpp" />
@@ -172,6 +173,7 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
     <ClInclude Include="..\Classes\ObjPlayer.h" />
     <ClInclude Include="..\Classes\ResourceCachedManager.h" />
     <ClInclude Include="..\Classes\Singleton.h" />
+    <ClInclude Include="..\Classes\StringUtil.h" />
     <ClInclude Include="..\Classes\tinystr.h" />
     <ClInclude Include="..\Classes\tinyxml.h" />
     <ClInclude Include="main.h" />

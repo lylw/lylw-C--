@@ -28,6 +28,9 @@
     <Filter Include="Classes\map">
       <UniqueIdentifier>{945d1a8d-a74f-4b1f-b5f7-157561ed8a45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\core\Util">
+      <UniqueIdentifier>{dca7d349-01eb-44ca-8452-cbb1a94b9947}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,7 +70,10 @@
       <Filter>Classes\obj</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\TextureUtils.h">
-      <Filter>Classes\core</Filter>
+      <Filter>Classes\core\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StringUtil.cpp">
+      <Filter>Classes\core\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Manager.h">
       <Filter>Classes\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StringUtil.h">
+      <Filter>Classes\core\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
