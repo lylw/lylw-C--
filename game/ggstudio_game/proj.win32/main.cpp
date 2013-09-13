@@ -17,7 +17,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     EGLView* eglView = EGLView::getInstance();
     eglView->setViewName(a2u("中国好游戏").c_str());
-    eglView->setFrameSize(960, 640);
+    eglView->setFrameSize(1360, 768);
 
     return Application::getInstance()->run();
 }

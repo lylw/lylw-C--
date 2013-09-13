@@ -17,16 +17,17 @@ bool AppDelegate::applicationDidFinishLaunching() {
     Director* director = Director::getInstance();
     EGLView* eglView = EGLView::getInstance();
     director->setProjection(kCCDirectorProjection2D);
-    director->setDepthTest(false);
+    director->setDepthTest(true);
 
     director->setOpenGLView(eglView);
 	
     // turn on display FPS
-    director->setDisplayStats(false);
+#if _DEBUG
+    director->setDisplayStats(true);
+#endif
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
-
 
     //load config
     MapConfig::getInstance().init();
@@ -40,7 +41,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     scene->addChild(gameMap);
 
     // run
-    director->runWithScene(scene);
+    director->runWithScene(CCTransitionFade::create(1.5f, scene));
 
     return true;
 }

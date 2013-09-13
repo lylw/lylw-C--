@@ -3,6 +3,7 @@
 #include "ResourceCachedManager.h"
 #include "ObjPlayer.h"
 #include <random>
+#include "TextureUtils.h"
 
 GameMap::GameMap(const MapID_t& mapId)
     : tiledMap_(nullptr), mapId_(mapId), player_(nullptr), mapX_(0), mapY_(0)
@@ -50,6 +51,19 @@ bool GameMap::init(void)
                 }
             }
         }
+    }
+
+    cocos2d::String* mapNamePropertyPtr = tiledMap_->getProperty("_MapName");
+    if (mapNamePropertyPtr != nullptr)
+    {
+        const char* mapName = mapNamePropertyPtr->getCString();
+        LabelTTF* lable = LabelTTF::create(mapName, "Î¢ÈíÑÅºÚ", 30.0f);
+
+        RenderTexture* renderTexture = createStroke(lable, 0.7f, Color3B(0, 0, 0));
+        lable->setPosition(ccp(400, 100));
+        renderTexture->setPosition(ccp(400, 100));
+        this->addChild(renderTexture, 1);
+        this->addChild(lable, 2);
     }
 
 

@@ -66,6 +66,9 @@
     <ClCompile Include="..\Classes\ObjPlayer.cpp">
       <Filter>Classes\obj</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\TextureUtils.h">
+      <Filter>Classes\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
