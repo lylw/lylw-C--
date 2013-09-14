@@ -47,20 +47,20 @@ bool GameMap::init(void)
                 if (sprite != nullptr)
                 {
                     sprite->setZOrder(zorder);
-                    sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
+                    //sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
                     //CCLOG("current tile(x = %d, y=%d, zorder=%d)", x, y, zorder);
                 }
             }
         }
     }
 
-    showMapDiscription();
+    schedule(schedule_selector(GameMap::showMapDiscription), 0, 1, 2.0f);
     onLoadCompleted();
 
     return true;
 }
 
-void GameMap::showMapDiscription()
+void GameMap::showMapDiscription(float dt)
 {
     //先取得地图名吧
     cocos2d::String* mapNamePropertyPtr = tiledMap_->getProperty("_MapName");
@@ -81,7 +81,15 @@ void GameMap::showMapDiscription()
         renderTexture->setRotation(90);
         this->addChild(renderTexture, 1);
         this->addChild(lable, 2);
+
+        FadeIn* fadeIn = FadeIn::create(1.5f);
+
+
+        cocos2d::Array* actionArray = cocos2d::Array::create();
+        Sequence* sequence = Sequence::create(fadeIn, NULL);
+        lable->runAction(sequence);
     }
+
 
     //然后取得描述
     cocos2d::String* mapDescriptionPtr = tiledMap_->getProperty("_MapDescription");

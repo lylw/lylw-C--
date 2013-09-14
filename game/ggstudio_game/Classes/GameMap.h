@@ -50,7 +50,7 @@ private:
     CCPoint tileCoordinateFromPos(CCPoint pos);
     void touchMap(const cocos2d::Point& touchPoint);
     void repositionSprite(float dt);
-    void showMapDiscription();
+    void showMapDiscription(float dt);
 
 private:
     MapID_t mapId_;
