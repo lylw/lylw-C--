@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <assert.h>
 #include "endian.h"
-#include "irene_common.h"
+#include "common.h"
 
 class ByteBuffer
 {

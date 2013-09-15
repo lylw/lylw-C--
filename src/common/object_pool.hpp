@@ -1,7 +1,7 @@
 #ifndef OBJECT_POOL_H_
 #define OBJECT_POOL_H_
 
-#include "irene_common.h"
+#include "common.h"
 #include <boost/noncopyable.hpp>
 
 template <typename _Ty>

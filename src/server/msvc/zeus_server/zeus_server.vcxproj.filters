@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\src\asio_service_deamon.cpp" />
+    <ClCompile Include="..\..\src\iserver.cpp" />
+    <ClCompile Include="..\..\src\opcodes_handler.cpp" />
+    <ClCompile Include="..\..\src\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\asio_service_deamon.h" />
+    <ClInclude Include="..\..\src\io_dispatcher.h" />
+    <ClInclude Include="..\..\src\opcodes_handler.h" />
+    <ClInclude Include="..\..\src\service_deamon.h" />
+    <ClInclude Include="..\..\src\session_manager.h" />
+    <ClInclude Include="..\..\src\stdafx.h" />
+    <ClInclude Include="..\..\src\targetver.h" />
+    <ClInclude Include="..\..\src\game_session.h" />
+  </ItemGroup>
+</Project>

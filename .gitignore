@@ -1,0 +1,14 @@
+/src/common/Debug
+
+/src/bin/server/zeus_server.exe
+
+/src/common/Release/*.tlog
+
+/src/server/msvc/zeus_server/Debug/*.tlog
+/src/server/msvc/Debug
+
+/src/server/msvc/zeus_server/Debug
+
+/src/server/msvc/ipch/irene_common-4eb045cf/*.ipch
+
+/src/common/Release
