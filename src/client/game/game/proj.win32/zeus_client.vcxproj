@@ -45,10 +45,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration).win32\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration).win32\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration).win32\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -90,16 +90,16 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>if not exist "$(SolutionDir)../../../../../output/client" mkdir "$(SolutionDir)../../../../../output/client"
+xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/libtiff.dll" xcopy /Y /Q "$(OutputPath)libtiff.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/iconv.dll" xcopy /Y /Q "$(OutputPath)iconv.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/zlib1.dll" xcopy /Y /Q "$(OutputPath)zlib1.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/glew32.dll" xcopy /Y /Q "$(OutputPath)glew32.dll" "$(SolutionDir)../../../../../output/client"</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(ProjectDir)$(IntermediateOutputPath)"
-if not exist "$(OutDir)libtiff.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)libtiff.dll" "$(OutDir)"
-if not exist "$(OutDir)iconv.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)iconv.dll" "$(OutDir)"
-if not exist "$(OutDir)zlib1.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)zlib1.dll" "$(OutDir)"
-if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)glew32.dll" "$(OutDir)"</Command>
+xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutputPath)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,16 +128,16 @@ if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutpu
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>if not exist "$(SolutionDir)../../../../../output/client" mkdir "$(SolutionDir)../../../../../output/client"
+xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/libtiff.dll" xcopy /Y /Q "$(OutputPath)libtiff.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/iconv.dll" xcopy /Y /Q "$(OutputPath)iconv.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/zlib1.dll" xcopy /Y /Q "$(OutputPath)zlib1.dll" "$(SolutionDir)../../../../../output/client"
+if not exist "$(SolutionDir)../../../../../output/client/glew32.dll" xcopy /Y /Q "$(OutputPath)glew32.dll" "$(SolutionDir)../../../../../output/client"</Command>
     </PostBuildEvent>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(ProjectDir)$(IntermediateOutputPath)"
-if not exist "$(OutDir)libtiff.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)libtiff.dll" "$(OutDir)"
-if not exist "$(OutDir)iconv.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)iconv.dll" "$(OutDir)"
-if not exist "$(OutDir)zlib1.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)zlib1.dll" "$(OutDir)"
-if not exist "$(OutDir)glew32.dll" xcopy /Y /Q "$(ProjectDir)$(IntermediateOutputPath)glew32.dll" "$(OutDir)"</Command>
+xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutputPath)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -12,3 +12,5 @@
 /src/server/msvc/ipch/irene_common-4eb045cf/*.ipch
 
 /src/common/Release
+
+/src/server/msvc/ipch/zeus_common-63efd723/*.ipch

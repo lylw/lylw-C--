@@ -7,7 +7,7 @@ int main(int argc, char** args)
     try
     {
         AsioServiceDeamon serviceEntry;
-        serviceEntry.start("irene_service", 4);
+        serviceEntry.start("zeus_service", 4);
     }
     catch (...)
     {

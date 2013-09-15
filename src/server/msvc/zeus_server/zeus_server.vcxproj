@@ -62,7 +62,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)../../../lib;$(SolutionDir)$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../bin/server"</Command>
+      <Command>if not exist "$(SolutionDir)../../../output/server" mkdir "$(SolutionDir)../../../output/server"
+xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../../output/server"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,7 +87,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)../../../lib;$(SolutionDir)$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../bin/server"</Command>
+      <Command>if not exist "$(SolutionDir)../../../output/server" mkdir "$(SolutionDir)../../../output/server"
+xcopy /Y /Q "$(TargetPath)" "$(SolutionDir)../../../output/server"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
