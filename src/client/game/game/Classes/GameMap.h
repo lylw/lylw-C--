@@ -22,8 +22,10 @@ public:
 
 public:
     bool init();
-    void addCharacter(ObjCharacter* character);
-    void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
+    void addPlayer(ObjPlayer* character);
+    void removePlayer(ObjPlayer* character);
+    const cocos2d::Size& getMapSize() const { return tiledMap_->getMapSize(); }
+    const cocos2d::Size& getTileSize() const { return tiledMap_->getTileSize(); }
 
 public:
     void objectEnterMap(ObjCharacter* character);
@@ -33,8 +35,8 @@ public:
 private:
     void onLoadCompleted();
     CCPoint tileCoordinateFromPos(CCPoint pos);
+    void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);
     void touchMap(const cocos2d::Point& touchPoint);
-    //void repositionSprite(float dt);
     void showMapDiscription(float dt);
 
 private:
@@ -43,10 +45,11 @@ private:
     cocos2d::TMXLayer* flagLayer_;
     float mapX_, mapY_;
     ObjPlayer* player_;
-    //CCSprite* heroSprite;
     ActionInterval* moveTo_;
     ActionInterval* repeat_;
     CCAnimate *animate_;
+
+    std::map<GUID_t, ObjPlayer*> playerList_;
 };
 
 #endif

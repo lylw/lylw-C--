@@ -12,7 +12,8 @@ ObjCharacter::ObjCharacter(const GUID_t& guid, const ObjType& objType/* = ObjTyp
     isMoving_(false),
     reMoving_(false),
     direction_(DIRECTION_UP),
-    lastDirection_(DIRECTION_DOWN)
+    lastDirection_(DIRECTION_DOWN),
+    currentMap_(nullptr)
 {
 }
 
@@ -21,27 +22,34 @@ ObjCharacter::~ObjCharacter()
 
 }
 
-void ObjCharacter::init(const AvatarStyle& avatarStyle)
+void ObjCharacter::init(const AvatarStyle& avatarStyle, GameMap* currentMap)
 {
+    CCASSERT(currentMap != nullptr, "current map could not be null");
+
+    //初始化样式
     avatarStyle_ = avatarStyle;
     CharacterFrameData* characterFrameData = ResourceCachedManager::getInstance().avatarStyleToFrameData(avatarStyle_);
     cocos2d::SpriteFrame* spriteFrame = characterFrameData->getSpriteFrameByDirection(DIRECTION_UP);
-
     initWithSpriteFrame(spriteFrame);
-    setPosition(cocos2d::Point(0, 0));
 
     //设置描点为脚底（之后通过角色编辑器编辑锚点，因为可能有些角色的锚点并不在脚下）
     setAnchorPoint(cocos2d::Point(0.5f, 0));
+
+    //设置所在地图
+    currentMap_ = currentMap;
+
+    //启用帧循环
+    schedule(schedule_selector(ObjCharacter::update));
+}
+
+GUID_t ObjCharacter::getGUID() const
+{
+    return guid_;
 }
 
 void ObjCharacter::setGUID(const GUID_t& guid)
 {
     guid_ = guid;
-}
-
-void ObjCharacter::setCurrentMap(GameMap* currentMap)
-{
-    currentMap_ = currentMap;
 }
 
 const AvatarStyle& ObjCharacter::avatarStyle() const
@@ -68,7 +76,6 @@ void ObjCharacter::setWeaponStyle(const uint16& weaponStyle)
 {
     avatarStyle_.weapon = weaponStyle;
 }
-
 
 void ObjCharacter::moveTo(const cocos2d::Point& target)
 {
@@ -190,7 +197,18 @@ void ObjCharacter::moveFinished()
     reMoving_ = false;
 }
 
-void ObjCharacter::repositionSprite(float dt)
+void ObjCharacter::update(float dt)
 {
+    //重置图层
+    int zorder = currentMap_->getMapSize().height - this->getPositionY() / currentMap_->getTileSize().height;
+    this->setZOrder(zorder);
+
     uint32 tiledFlag = currentMap_->getTiledFlagByPosition(this->getPosition());
+    if (tiledFlag == TILE_FLAG_COVER)
+    {
+        this->setOpacity(120);
+        return;
+    }
+
+    this->setOpacity(255);
 }

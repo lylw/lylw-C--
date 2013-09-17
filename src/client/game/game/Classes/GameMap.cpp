@@ -37,7 +37,7 @@ bool GameMap::init(void)
         flagLayer_->setVisible(false);
         cocos2d::Dictionary* dictionary = tiledMap_->getProperties();
         Array* arr = dictionary->allKeys();
-        for (int i = 0; i < arr->count(); ++i)
+        for (uint32 i = 0; i < arr->count(); ++i)
         {
             CCLOG("key[%d] = %s", i, arr->objectAtIndex(i));
         }
@@ -59,6 +59,9 @@ bool GameMap::init(void)
                 if (sprite != nullptr)
                 {
                     sprite->setZOrder(zorder);
+
+                    //开启抗锯齿防抖动（其实我也不知是什么原理）
+                    sprite->getTexture()->setAntiAliasTexParameters();
                     //sprite->setColor(cocos2d::Color3B(100, zorder*2.5, 100));   //颜色用于区分地图图层的层次
                     //CCLOG("current tile(x = %d, y=%d, zorder=%d)", x, y, zorder);
                 }
@@ -137,10 +140,19 @@ void GameMap::showMapDiscription(float dt)
     }
 }
 
-void GameMap::addCharacter(ObjCharacter* character)
+void GameMap::addPlayer(ObjPlayer* player)
 {
-    int zorder = tiledMap_->getMapSize().height - character->getPosition().y / tiledMap_->getTileSize().height;
-    tiledMap_->addChild(character, zorder);
+    int zorder = tiledMap_->getMapSize().height - player->getPosition().y / tiledMap_->getTileSize().height;
+    tiledMap_->addChild(player, zorder);
+
+    playerList_.insert(std::make_pair(player->getGUID(), player));
+
+    objectEnterMap(player);
+}
+
+void GameMap::removePlayer(ObjPlayer* character)
+{
+
 }
 
 void GameMap::onLoadCompleted()
@@ -150,14 +162,9 @@ void GameMap::onLoadCompleted()
 
     //创建角色
     player_ = new ObjPlayer(696969);
-    player_->init(avatarStyle);
+    player_->init(avatarStyle, this);
     player_->setPosition(ccp(73, 99));
-
-    //把角色调整到相应的层中
-    //tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
-    this->addCharacter(player_);
-
-   // schedule(schedule_selector(GameMap::repositionSprite));
+    this->addPlayer(player_);
 
     //创建一些随机角色
     std::default_random_engine generator;  
@@ -169,54 +176,37 @@ void GameMap::onLoadCompleted()
     {
         avatarStyle.body = r_avatar(generator);
         ObjPlayer* random_player = new ObjPlayer(i);
-        random_player->init(avatarStyle);
+        random_player->init(avatarStyle, this);
         random_player->setPosition(cocos2d::Point(r_point_x(generator), r_point_y(generator)));
-        addCharacter(random_player);
+        this->addPlayer(random_player);
     }
-
+    
 }
-
-/*void GameMap::repositionSprite(float dt)
-{
-    int zorder = tiledMap_->getMapSize().height - player_->getPositionY() / tiledMap_->getTileSize().height;
-    player_->setZOrder(zorder);
-
-    CCPoint mapPoint = this->tileCoordinateFromPos(ccp(player_->getPositionX() - mapX_, player_->getPositionY() - mapY_));
-    unsigned int gid = flagLayer_->tileGIDAt(mapPoint);
-    cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
-    if (dictionary == nullptr || dictionary->count() == 0)
-    {
-        player_->setOpacity(255);
-        return;
-    }
-
-    const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
-    if (tileFlag == nullptr || tileFlag->uintValue() != TILE_FLAG_COVER)
-    {
-        player_->setOpacity(255);
-        return;
-    }
-
-    player_->setOpacity(180);
-
-    //CCLOG("rezorder = %d",zorder);
-}*/
 
 uint32 GameMap::getTiledFlagByPosition(const cocos2d::Point& point)
 {
-    CCPoint mapPoint = this->tileCoordinateFromPos(ccp(player_->getPositionX() - mapX_, player_->getPositionY() - mapY_));
-    unsigned int gid = flagLayer_->tileGIDAt(mapPoint);
-    cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
-    if (dictionary == nullptr || dictionary->count() == 0)
+    CCASSERT(flagLayer_ != nullptr, "flagLayer_ could not be null.");
+    CCPoint mapPoint = this->tileCoordinateFromPos(ccp(point.x - mapX_, point.y - mapY_));
+
+    //判断角色的坐标是否在图层内
+    if (mapPoint.x < flagLayer_->getLayerSize().width && 
+        mapPoint.y < flagLayer_->getLayerSize().height && 
+        mapPoint.x >=0 && 
+        mapPoint.y >=0)
     {
-        return 0;
+        unsigned int gid = flagLayer_->tileGIDAt(mapPoint);
+        cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
+        if (dictionary != nullptr && dictionary->count() != 0)
+        {
+            const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
+            if (tileFlag != nullptr)
+            {
+                return tileFlag->uintValue();
+            }
+        }
     }
 
-    const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
-    if (tileFlag != nullptr)
-    {
-        return tileFlag->uintValue();
-    }
+    return 0;
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)

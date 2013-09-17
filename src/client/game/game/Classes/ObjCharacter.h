@@ -13,12 +13,12 @@ public:
     virtual ~ObjCharacter();
 
 public:
-    void init(const AvatarStyle& avatarStyle);
+    void init(const AvatarStyle& avatarStyle, GameMap* currentMap);
 
 public:
+    GUID_t getGUID() const;
     void setGUID(const GUID_t& guid);
     const AvatarStyle& avatarStyle() const;
-    void setCurrentMap(GameMap* currentMap);
     void setBodyStyle(const uint16& bodyStyle);
     void setClothesStyle(const uint16& bodyStyle);
     void setHairStyle(const uint16& bodyStyle);
@@ -27,7 +27,9 @@ public:
 public:
     void moveTo(const cocos2d::Point& target);
     void moveFinished();
-    void repositionSprite(float dt);
+
+private:
+    virtual void update(float dt);
 
 private:
     GUID_t guid_;
