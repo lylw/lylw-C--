@@ -9,22 +9,6 @@
 
 USING_NS_CC;
 
-enum TileFlag
-{
-    TILE_FLAG_ACROSSABLE,   //可通行的
-    TILE_FLAG_BLOCK,        //障碍物
-    TILE_FLAG_COVER         //遮挡物
-};
-
-//图层
-enum MapLayer
-{
-    MAP_LAYER_UNDERWORLD = -1,  //地底
-    MAP_LAYER_GROUND     = 0,   //地表层
-    MAP_LAYER_CHARACTER  = 1,   //角色层（包括NPC，怪物等）
-    MAP_LAYER_OBJECTS    = 2,   //地图对象层
-    MAP_LAYER_TILED_FLAG = 3    //图块标志层
-};
 
 class ObjPlayer;
 class ObjCharacter;
@@ -44,17 +28,19 @@ public:
 public:
     void objectEnterMap(ObjCharacter* character);
     void objectLeaveMap(ObjCharacter* character);
+    uint32 getTiledFlagByPosition(const cocos2d::Point& point);
 
 private:
     void onLoadCompleted();
     CCPoint tileCoordinateFromPos(CCPoint pos);
     void touchMap(const cocos2d::Point& touchPoint);
-    void repositionSprite(float dt);
+    //void repositionSprite(float dt);
     void showMapDiscription(float dt);
 
 private:
     MapID_t mapId_;
     cocos2d::TMXTiledMap* tiledMap_;
+    cocos2d::TMXLayer* flagLayer_;
     float mapX_, mapY_;
     ObjPlayer* player_;
     //CCSprite* heroSprite;

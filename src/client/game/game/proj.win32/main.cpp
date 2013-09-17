@@ -21,4 +21,3 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     return Application::getInstance()->run();
 }
-

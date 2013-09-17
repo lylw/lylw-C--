@@ -14,3 +14,4 @@
 /src/common/Release
 
 /src/server/msvc/ipch/zeus_common-63efd723/*.ipch
+/src/server/msvc/*.sdf

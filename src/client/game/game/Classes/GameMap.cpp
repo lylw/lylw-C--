@@ -31,6 +31,18 @@ bool GameMap::init(void)
     tiledMap_->setPosition(0, 0);
     this->addChild(tiledMap_, 0);
 
+    flagLayer_ = tiledMap_->getLayer("flag_layer");
+    if (flagLayer_ != nullptr)
+    {
+        flagLayer_->setVisible(false);
+        cocos2d::Dictionary* dictionary = tiledMap_->getProperties();
+        Array* arr = dictionary->allKeys();
+        for (int i = 0; i < arr->count(); ++i)
+        {
+            CCLOG("key[%d] = %s", i, arr->objectAtIndex(i));
+        }
+    }
+
     //重置所有图块zorder
     Size mapSize = tiledMap_->getMapSize();
     Object* layer_obj = nullptr;
@@ -145,7 +157,7 @@ void GameMap::onLoadCompleted()
     //tiledMap_->reorderChild(player_, MapLayer::MAP_LAYER_CHARACTER);
     this->addCharacter(player_);
 
-    schedule(schedule_selector(GameMap::repositionSprite));
+   // schedule(schedule_selector(GameMap::repositionSprite));
 
     //创建一些随机角色
     std::default_random_engine generator;  
@@ -153,7 +165,7 @@ void GameMap::onLoadCompleted()
     std::uniform_int_distribution<int> r_point_x(0, EGLView::getInstance()->getFrameSize().width);
     std::uniform_int_distribution<int> r_point_y(0, EGLView::getInstance()->getFrameSize().height);
 
-    for (int i = 0; i < 200; ++i)
+    for (int i = 0; i < 100; ++i)
     {
         avatarStyle.body = r_avatar(generator);
         ObjPlayer* random_player = new ObjPlayer(i);
@@ -164,18 +176,53 @@ void GameMap::onLoadCompleted()
 
 }
 
-void GameMap::repositionSprite(float dt)
+/*void GameMap::repositionSprite(float dt)
 {
-    int zorder = tiledMap_->getMapSize().height - player_->getPosition().y / tiledMap_->getTileSize().height;
-    player_->setZOrder(zorder-1);
+    int zorder = tiledMap_->getMapSize().height - player_->getPositionY() / tiledMap_->getTileSize().height;
+    player_->setZOrder(zorder);
+
+    CCPoint mapPoint = this->tileCoordinateFromPos(ccp(player_->getPositionX() - mapX_, player_->getPositionY() - mapY_));
+    unsigned int gid = flagLayer_->tileGIDAt(mapPoint);
+    cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
+    if (dictionary == nullptr || dictionary->count() == 0)
+    {
+        player_->setOpacity(255);
+        return;
+    }
+
+    const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
+    if (tileFlag == nullptr || tileFlag->uintValue() != TILE_FLAG_COVER)
+    {
+        player_->setOpacity(255);
+        return;
+    }
+
+    player_->setOpacity(180);
+
     //CCLOG("rezorder = %d",zorder);
+}*/
+
+uint32 GameMap::getTiledFlagByPosition(const cocos2d::Point& point)
+{
+    CCPoint mapPoint = this->tileCoordinateFromPos(ccp(player_->getPositionX() - mapX_, player_->getPositionY() - mapY_));
+    unsigned int gid = flagLayer_->tileGIDAt(mapPoint);
+    cocos2d::Dictionary* dictionary = tiledMap_->getPropertiesForGID(gid);
+    if (dictionary == nullptr || dictionary->count() == 0)
+    {
+        return 0;
+    }
+
+    const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
+    if (tileFlag != nullptr)
+    {
+        return tileFlag->uintValue();
+    }
 }
 
 void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
 {
     //获取第一个触摸点
     CCTouch* touch = reinterpret_cast<CCTouch *>(pTouches->anyObject());
-
 
     //获取触摸坐标
     //注意，升级到cocos2d-3.0 beta版本后，getLocationInView()是没有参数的。
@@ -207,7 +254,7 @@ void GameMap::ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent)
                 const cocos2d::String* tileFlag = dictionary->valueForKey("tile_flag");
 
                 //如果没有设置block属性或者设置了block属性但不等于1，则表示当前图块是可以通行的
-                if (tileFlag == nullptr || tileFlag->uintValue() == 0)
+                if (tileFlag != nullptr && tileFlag->uintValue() != TILE_FLAG_BLOCK)
                 {
                     touchMap(touchPoint);
                 }

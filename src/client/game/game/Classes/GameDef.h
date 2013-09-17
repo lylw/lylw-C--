@@ -83,5 +83,18 @@ enum ActionType
     ACTION_TYPE_MAX_FLAG
 };
 
+/*
+图块属性类型
+    · acrossable 可穿透的地形
+    · block      障碍地形
+    · cover      遮挡地形
+*/
+enum TileFlag
+{
+    TILE_FLAG_ACROSSABLE,   //可通行的
+    TILE_FLAG_BLOCK,        //障碍物
+    TILE_FLAG_COVER         //遮挡物
+};
+
 
 #endif

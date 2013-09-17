@@ -1,5 +1,6 @@
 #include "ObjCharacter.h"
 #include "ResourceCachedManager.h"
+#include "GameMap.h"
 
 ObjCharacter::ObjCharacter(const GUID_t& guid, const ObjType& objType/* = ObjType::OBJ_TYPE_INVALID*/)
     : guid_(guid), 
@@ -7,7 +8,7 @@ ObjCharacter::ObjCharacter(const GUID_t& guid, const ObjType& objType/* = ObjTyp
     moveSequenceAction_(nullptr),
     moveAction_(nullptr), 
     walkRepeatAction_(nullptr), 
-    moveSpeed_(140.0f),
+    moveSpeed_(240.0f),
     isMoving_(false),
     reMoving_(false),
     direction_(DIRECTION_UP),
@@ -36,6 +37,11 @@ void ObjCharacter::init(const AvatarStyle& avatarStyle)
 void ObjCharacter::setGUID(const GUID_t& guid)
 {
     guid_ = guid;
+}
+
+void ObjCharacter::setCurrentMap(GameMap* currentMap)
+{
+    currentMap_ = currentMap;
 }
 
 const AvatarStyle& ObjCharacter::avatarStyle() const
@@ -182,4 +188,9 @@ void ObjCharacter::moveFinished()
 
     isMoving_ = false;
     reMoving_ = false;
+}
+
+void ObjCharacter::repositionSprite(float dt)
+{
+    uint32 tiledFlag = currentMap_->getTiledFlagByPosition(this->getPosition());
 }
