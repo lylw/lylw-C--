@@ -172,7 +172,7 @@ void GameMap::onLoadCompleted()
     std::uniform_int_distribution<int> r_point_x(0, EGLView::getInstance()->getFrameSize().width);
     std::uniform_int_distribution<int> r_point_y(0, EGLView::getInstance()->getFrameSize().height);
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 10; ++i)
     {
         avatarStyle.body = r_avatar(generator);
         ObjPlayer* random_player = new ObjPlayer(i);
